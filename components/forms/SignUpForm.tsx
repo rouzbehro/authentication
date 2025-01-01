@@ -10,26 +10,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import Separator from '../shared/Separator';
 import { AuthButton } from '../auth/AuthButton';
-
-const formSchema = z.object({
-  email: z.string().email('Invalid email address.'),
-  firstName: z.string().min(1, 'First name is required.').max(50, 'First name is too long.'),
-  lastName: z.string().min(1, 'Last name is required.').max(50, 'Last name is too long.'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long.')
-    .max(128, 'Password is too long.')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter.')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter.')
-    .regex(/[0-9]/, 'Password must contain at least one digit.')
-    .regex(/[\W_]/, 'Password must contain at least one special character.'),
-});
+import { signUpSchema } from '@/app/validation';
+import { InputField } from '../form/fields/InputField';
+import { PasswordField } from '../form/fields/PasswordField';
 
 function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       firstName: '',
@@ -43,7 +32,7 @@ function SignUpForm() {
     formState: { errors },
   } = form;
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: z.infer<typeof signUpSchema>) => {
     console.log('Form submitted successfully:', data);
   };
 
@@ -51,73 +40,26 @@ function SignUpForm() {
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="Enter your email" {...field} />
-                </FormControl>
-                <FormMessage>{errors.email?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
+          <InputField control={form.control} name="email" label="Email" placeholder="Enter your email" type="email" />
           <div className="flex gap-4">
-            <FormField
+            <InputField
               control={form.control}
+              className="flex-1"
               name="firstName"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>First Name</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="Enter your first name" {...field} />
-                  </FormControl>
-                  <FormMessage>{errors.firstName?.message}</FormMessage>
-                </FormItem>
-              )}
+              label="First Name"
+              placeholder="Enter your first name"
+              type="text"
             />
-            <FormField
+            <InputField
               control={form.control}
+              className="flex-1"
               name="lastName"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="Enter your last name" {...field} />
-                  </FormControl>
-                  <FormMessage>{errors.lastName?.message}</FormMessage>
-                </FormItem>
-              )}
+              label="Last Name"
+              placeholder="Enter your last name"
+              type="text"
             />
           </div>
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <div className="relative">
-                  <FormControl>
-                    <Input type={showPassword ? 'text' : 'password'} placeholder="Enter your password" {...field} />
-                  </FormControl>
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOffIcon className="h-5 w-5 text-muted-foreground" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5 text-muted-foreground" />
-                    )}
-                  </button>
-                </div>
-                <FormMessage>{errors.password?.message}</FormMessage>
-              </FormItem>
-            )}
-          />
+          <PasswordField control={form.control} name="password" label="Password" placeholder="Enter your password" />
         </div>
 
         <Button type="submit" className="w-full mt-4">
