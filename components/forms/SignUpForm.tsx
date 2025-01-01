@@ -8,8 +8,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import Separator from '../Separator/Separator';
-import { AuthButton } from '../AuthButton/AuthButton';
+import Separator from '../shared/Separator';
+import { AuthButton } from '../auth/AuthButton';
 
 const formSchema = z.object({
   email: z.string().email('Invalid email address.'),
