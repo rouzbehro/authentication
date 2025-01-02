@@ -11,6 +11,7 @@ import { signUpSchema } from '@/app/validation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signUp } from '@/app/actions/auth';
 
 function SignUpForm() {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -25,8 +26,14 @@ function SignUpForm() {
 
   const { handleSubmit } = form;
 
-  const onSubmit = (data: z.infer<typeof signUpSchema>) => {
-    console.log('Form submitted successfully:', data);
+  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
+    const response = await signUp({
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      password: data.password,
+    });
+    console.log(response);
   };
 
   return (
