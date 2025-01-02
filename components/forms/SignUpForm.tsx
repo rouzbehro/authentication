@@ -1,22 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import Separator from '../shared/Separator';
+import { AuthButton } from '../auth/AuthButton';
 import { Button } from '@/components/ui/button';
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
+import { InputField } from '../form/fields/InputField';
+import { PasswordField } from '../form/fields/PasswordField';
+import { signUpSchema } from '@/app/validation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import Separator from '../shared/Separator';
-import { AuthButton } from '../auth/AuthButton';
-import { signUpSchema } from '@/app/validation';
-import { InputField } from '../form/fields/InputField';
-import { PasswordField } from '../form/fields/PasswordField';
 
 function SignUpForm() {
-  const [showPassword, setShowPassword] = useState(false);
-
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -27,10 +23,7 @@ function SignUpForm() {
     },
   });
 
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = form;
+  const { handleSubmit } = form;
 
   const onSubmit = (data: z.infer<typeof signUpSchema>) => {
     console.log('Form submitted successfully:', data);

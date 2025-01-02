@@ -2,14 +2,13 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 
 interface AuthButtonProps {
-  provider: 'google' | 'apple'; // Specific for Google or Apple
-  text: string; // Button text
-  onClick?: () => void; // Optional click handler
-  className?: string; // Optional additional classes
+  provider: 'google' | 'apple';
+  text: string;
+  onClick?: () => void;
+  className?: string;
 }
 
 export const AuthButton: React.FC<AuthButtonProps> = ({ provider, text, onClick, className }) => {
-  // Internal mapping for icons
   const icons = {
     google: (
       <svg
