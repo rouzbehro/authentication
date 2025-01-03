@@ -5,10 +5,11 @@ interface AuthButtonProps {
   provider: 'google' | 'apple';
   text: string;
   onClick?: () => void;
+  disabled?: boolean;
   className?: string;
 }
 
-export const AuthButton: React.FC<AuthButtonProps> = ({ provider, text, onClick, className }) => {
+export const AuthButton: React.FC<AuthButtonProps> = ({ provider, text, onClick, disabled, className }) => {
   const icons = {
     google: (
       <svg
@@ -47,7 +48,7 @@ export const AuthButton: React.FC<AuthButtonProps> = ({ provider, text, onClick,
   };
 
   return (
-    <Button onClick={onClick} variant="outline" className={`flex items-center w-full ${className || ''}`}>
+    <Button onClick={onClick} variant="outline" className={`flex items-center w-full ${className || ''}`} disabled={disabled}>
       <span className="mr-2">{icons[provider]}</span>
       {text}
     </Button>

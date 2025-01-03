@@ -24,7 +24,8 @@ function SignUpForm() {
     },
   });
 
-  const { handleSubmit } = form;
+  const { handleSubmit, formState } = form;
+  const { isSubmitting } = formState;
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     const response = await signUp({
@@ -62,14 +63,14 @@ function SignUpForm() {
           <PasswordField control={form.control} name="password" label="Password" placeholder="Enter your password" />
         </div>
 
-        <Button type="submit" className="w-full mt-4">
+        <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
           Sign up
         </Button>
 
         <Separator>Or continue with</Separator>
         <div className="space-y-2 mt-4">
-          <AuthButton provider="google" text="Sign up with Google" />
-          <AuthButton provider="apple" text="Sign up with Apple" />
+          <AuthButton provider="google" text="Sign up with Google" disabled={isSubmitting} />
+          <AuthButton provider="apple" text="Sign up with Apple" disabled={isSubmitting} />
         </div>
       </form>
     </Form>
