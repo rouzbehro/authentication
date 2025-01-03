@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // Primary key, generated as a UUID by the database
+  firstName   String
+  lastName    String
+  email       String      @unique
+  clerkId     String      @unique
+  oAuthType   String?
+  title       String?
+  interests   String[]
+  accountType AccountType
+  location    String[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  companyId String?  @db.Uuid // Foreign key referencing the company the user belongs to, nullable if no company
+  company   Company? @relation(fields: [companyId], references: [id]) // Relationship to the Company model
+
+  teamId String? @unique @db.Uuid // Foreign key referencing the team the user belongs to, unique to ensure one team per user
+  team   Team?   @relation(fields: [teamId], references: [id]) // Relationship to the Team model
+}
+
+model Team {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerId   String   @unique // Foreign key referencing the team owner, unique to ensure only one owner per team
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[] // Relationship to the User model; includes all users associated with the team
+}
+
+model Company {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  address   String?
+  email     String?  @unique
+  phone     String?
+  logo      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+}
+
+enum AccountType {
+  INDIVIDUAL
+  TEAM
+}
