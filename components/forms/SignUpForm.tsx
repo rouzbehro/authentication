@@ -11,9 +11,12 @@ import { signUpSchema } from '@/app/validation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUp } from '@/app/actions/auth';
+import { useSignUp } from '@clerk/nextjs';
+import { useToast } from '@/hooks/use-toast';
 
 function SignUpForm() {
+  const { toast } = useToast();
+  const { signUp, isLoaded } = useSignUp();
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -28,13 +31,32 @@ function SignUpForm() {
   const { isSubmitting } = formState;
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    const response = await signUp({
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      password: data.password,
-    });
-    console.log(response);
+    if (!isLoaded) return;
+
+    // Start the sign-up process using the email and password provided
+    try {
+      await signUp.create({
+        emailAddress: data.email,
+        password: data.password,
+      });
+
+      // Send the user an email with the verification code
+      await signUp.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log('error:');
+        console.log(error);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: error.message,
+        });
+      } else {
+        console.error('An unexpected error occurred:', error);
+      }
+    }
   };
 
   return (
@@ -62,6 +84,8 @@ function SignUpForm() {
           </div>
           <PasswordField control={form.control} name="password" label="Password" placeholder="Enter your password" />
         </div>
+
+        <div className="mt-4" id="clerk-captcha"></div>
 
         <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
           Sign up
