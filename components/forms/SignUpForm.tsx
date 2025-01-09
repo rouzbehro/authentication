@@ -13,10 +13,13 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSignUp } from '@clerk/nextjs';
 import { useToast } from '@/hooks/use-toast';
+import { H3, SmallText } from '@/components/shared/Typography';
+import { useSignUpFormStep } from '@/context/sign-up/use-sign-up-steps-context';
 
 function SignUpForm() {
   const { toast } = useToast();
   const { signUp, isLoaded } = useSignUp();
+  const { step, setStep } = useSignUpFormStep();
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -44,6 +47,8 @@ function SignUpForm() {
       await signUp.prepareEmailAddressVerification({
         strategy: 'email_code',
       });
+
+      setStep(step + 1);
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log('error:');
@@ -60,44 +65,50 @@ function SignUpForm() {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="space-y-4">
-          <InputField control={form.control} name="email" label="Email" placeholder="Enter your email" type="email" />
-          <div className="flex gap-4">
-            <InputField
-              control={form.control}
-              className="flex-1"
-              name="firstName"
-              label="First Name"
-              placeholder="Enter your first name"
-              type="text"
-            />
-            <InputField
-              control={form.control}
-              className="flex-1"
-              name="lastName"
-              label="Last Name"
-              placeholder="Enter your last name"
-              type="text"
-            />
+    <>
+      <div className="text-center">
+        <H3>Create an account</H3>
+        <SmallText>Sign up to get started</SmallText>
+      </div>
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-4">
+            <InputField control={form.control} name="email" label="Email" placeholder="Enter your email" type="email" />
+            <div className="flex gap-4">
+              <InputField
+                control={form.control}
+                className="flex-1"
+                name="firstName"
+                label="First Name"
+                placeholder="Enter your first name"
+                type="text"
+              />
+              <InputField
+                control={form.control}
+                className="flex-1"
+                name="lastName"
+                label="Last Name"
+                placeholder="Enter your last name"
+                type="text"
+              />
+            </div>
+            <PasswordField control={form.control} name="password" label="Password" placeholder="Enter your password" />
           </div>
-          <PasswordField control={form.control} name="password" label="Password" placeholder="Enter your password" />
-        </div>
 
-        <div className="mt-4" id="clerk-captcha"></div>
+          <div className="mt-4" id="clerk-captcha"></div>
 
-        <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
-          Sign up
-        </Button>
+          <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
+            Sign up
+          </Button>
 
-        <Separator>Or continue with</Separator>
-        <div className="space-y-2 mt-4">
-          <AuthButton provider="google" text="Sign up with Google" disabled={isSubmitting} />
-          <AuthButton provider="apple" text="Sign up with Apple" disabled={isSubmitting} />
-        </div>
-      </form>
-    </Form>
+          <Separator>Or continue with</Separator>
+          <div className="space-y-2 mt-4">
+            <AuthButton provider="google" text="Sign up with Google" disabled={isSubmitting} />
+            <AuthButton provider="apple" text="Sign up with Apple" disabled={isSubmitting} />
+          </div>
+        </form>
+      </Form>
+    </>
   );
 }
 

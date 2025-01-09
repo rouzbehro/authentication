@@ -13,3 +13,7 @@ export const signUpSchema = z.object({
     .regex(/[0-9]/, 'Password must contain at least one digit.')
     .regex(/[\W_]/, 'Password must contain at least one special character.'),
 });
+
+export const otpSchema = z.object({
+  otp: z.string().min(6, { message: 'Please enter the 6 digit code sent to your email.' }),
+});
