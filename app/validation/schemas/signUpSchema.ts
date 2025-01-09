@@ -15,5 +15,5 @@ export const signUpSchema = z.object({
 });
 
 export const otpSchema = z.object({
-  otp: z.string().min(6, { message: 'Please enter the 6 digit code sent to your email.' }),
+  otp: z.string().min(7, { message: 'Please enter the 6 digit code sent to your email.' }),
 });

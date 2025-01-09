@@ -12,7 +12,7 @@ interface SignUpFormStepContextType {
 const SignUpFormStepContext = createContext<SignUpFormStepContextType | undefined>(undefined);
 
 // Create a provider component
-export const SignUpFormStepProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const SignUpFormContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [step, setStep] = useState<number>(1); // Default to step 1
   return <SignUpFormStepContext.Provider value={{ step, setStep }}>{children}</SignUpFormStepContext.Provider>;
 };
@@ -21,7 +21,7 @@ export const SignUpFormStepProvider: React.FC<{ children: ReactNode }> = ({ chil
 export const useSignUpFormStep = (): SignUpFormStepContextType => {
   const context = useContext(SignUpFormStepContext);
   if (!context) {
-    throw new Error('useSignUpFormStep must be used within a SignUpFormStepProvider');
+    throw new Error('useSignUpFormStep must be used within a SignUpFormContextProvider');
   }
   return context;
 };
