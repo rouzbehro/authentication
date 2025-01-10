@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 interface CTAButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  type?: string;
+  type?: 'button' | 'reset' | 'submit';
   isLoading?: boolean;
   loadingText?: string;
   size?: 'small' | 'medium' | 'large';

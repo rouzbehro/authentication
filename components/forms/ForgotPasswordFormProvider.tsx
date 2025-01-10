@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormSignUp } from '@/context/auth/use-form-sign-up';
+import { useFormForgotPassword } from '@/context/auth/use-form-forgot-password';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
@@ -8,8 +8,8 @@ type Props = {
   children: React.ReactNode;
 };
 
-const SignUpFormProvider = ({ children }: Props) => {
-  const { formMethods, onSubmit } = useFormSignUp();
+const ForgotPasswordFormProvider = ({ children }: Props) => {
+  const { formMethods, onSubmit } = useFormForgotPassword();
 
   return (
     <FormProvider {...formMethods}>
@@ -20,4 +20,4 @@ const SignUpFormProvider = ({ children }: Props) => {
   );
 };
 
-export default SignUpFormProvider;
+export default ForgotPasswordFormProvider;

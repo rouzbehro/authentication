@@ -2,11 +2,9 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { InputField } from '../form/fields/InputField';
 import { PasswordField } from '../form/fields/PasswordField';
-import { Button } from '../ui/button';
 import Separator from '../shared/Separator';
 import { AuthButton } from '../auth/AuthButton';
 import FormHeader from './FormHeader';
-import Loading from '../shared/Loading';
 import CTAButton from '../shared/CTAButton';
 
 function SignUpForm() {

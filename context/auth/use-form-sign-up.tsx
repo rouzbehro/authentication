@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useSignUp } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
-import { useFormStep } from '@/context/sign-up/use-form-steps-context';
+import { useFormStep } from '@/context/shared/use-form-steps-context';
 import { z } from 'zod';
 
 // Define types for SignUpForm data and OTP data
