@@ -1,1 +1,1 @@
-export { signInSchema, forgotPasswordSchema, signUpSchema, otpSchema } from './schemas/authSchema';
+export { signInSchema, forgotPasswordSchema, signUpSchema, otpSchema, resetPasswordSchema } from './schemas/authSchema';

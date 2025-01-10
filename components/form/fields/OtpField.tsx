@@ -1,17 +1,19 @@
 import React from 'react';
 import { FieldValues } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { FormItem, FormControl, FormMessage } from '@/components/ui/form';
+import { FormItem, FormControl, FormMessage, FormLabel } from '@/components/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp';
 
 interface OtpFieldProps {
   register: ReturnType<typeof import('react-hook-form').useForm>['register'];
   name: string;
+  label?: string;
   errors: FieldValues['errors'];
 }
 
-const OtpField: React.FC<OtpFieldProps> = ({ register, name, errors }) => (
+const OtpField: React.FC<OtpFieldProps> = ({ register, name, label, errors }) => (
   <FormItem>
+    {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
     <FormControl>
       <InputOTP
         maxLength={6}

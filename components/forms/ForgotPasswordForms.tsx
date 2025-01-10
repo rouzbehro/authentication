@@ -10,36 +10,22 @@ const ForgotPasswordFormInputs = dynamic(() => import('./ForgotPasswordForm'), {
   ssr: false,
 });
 
-const ResetPasswordFormInputs = dynamic(() => import('./OtpForm'), {
+const ResetPasswordFormInputs = dynamic(() => import('./ResetPasswordForm'), {
   loading: () => <Loading />,
   ssr: false,
 });
 
-const stepComponents: {
-  [key: number]: {
-    Component: React.ComponentType<any>;
-    props?: Record<string, any>;
-  };
-} = {
-  1: {
-    Component: ForgotPasswordFormInputs,
-  },
-  2: {
-    Component: ResetPasswordFormInputs,
-    props: {
-      title: 'Reset Your Password',
-      subtitle: 'Enter your new password and confirm it.',
-      buttonText: 'Reset Password',
-    },
-  },
+const stepComponents: { [key: number]: React.ComponentType } = {
+  1: ForgotPasswordFormInputs,
+  2: ResetPasswordFormInputs,
 };
 
 const ForgotPasswordForms = () => {
   const { step } = useFormStep();
-  const stepConfig = stepComponents[step];
-  if (!stepConfig) return null;
-  const { Component, props } = stepConfig;
-  return <Component {...props} />;
+
+  // Dynamically determine the step component
+  const StepComponent = stepComponents[step] || null;
+  return StepComponent && <StepComponent />;
 };
 
 export default ForgotPasswordForms;
