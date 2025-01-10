@@ -6,8 +6,8 @@ import ForgotPasswordForms from '@/components/forms/ForgotPasswordForms';
 
 export default function ForgotPasswordPage() {
   return (
-    <div className="w-full md:w-1/2 p-8 flex items-center justify-center bg-white rounded-l-3xl md:rounded-r-none rounded-r-3xl">
-      <div className="w-full max-w-md space-y-8">
+    <div className="w-full md:w-1/2 p-8 flex items-center justify-center md:bg-white rounded-l-3xl md:rounded-r-none rounded-r-3xl">
+      <div className="w-full max-w-md space-y-8 bg-white p-8 md:p-0 sm:rounded-none rounded-3xl">
         <FormStepContextProvider>
           <ForgotPasswordFormProvider>
             <ForgotPasswordForms />
