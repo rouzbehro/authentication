@@ -1,25 +1,31 @@
 'use client';
 
 import React from 'react';
-import SignUpForm from '@/components/forms/SignUpForm';
-
-import { useSignUpFormStep } from '@/context/sign-up/use-sign-up-steps-context';
+import { useFormStep } from '@/context/sign-up/use-form-steps-context';
 import dynamic from 'next/dynamic';
+import Loading from '../shared/Loading';
 
-type Props = {};
-
-const OTPForm = dynamic(() => import('./OtpForm'), {
+const SignUpFormInputs = dynamic(() => import('./SignUpForm'), {
+  loading: () => <Loading />,
   ssr: false,
 });
 
-const SignUpForms = (props: Props) => {
-  const { step } = useSignUpFormStep();
-  return (
-    <>
-      {step === 1 && <SignUpForm />}
-      {step === 2 && <OTPForm />}
-    </>
-  );
+const OTPFormInputs = dynamic(() => import('./OtpForm'), {
+  loading: () => <Loading />,
+  ssr: false,
+});
+
+const stepComponents: { [key: number]: React.ComponentType } = {
+  1: SignUpFormInputs,
+  2: OTPFormInputs,
+};
+
+const SignUpForms = () => {
+  const { step } = useFormStep();
+
+  // Dynamically determine the step component
+  const StepComponent = stepComponents[step] || null;
+  return StepComponent && <StepComponent />;
 };
 
 export default SignUpForms;
