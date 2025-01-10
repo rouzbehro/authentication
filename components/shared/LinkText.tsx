@@ -5,14 +5,16 @@ interface LinkTextProps {
   link: string;
   linkText: string;
   preLinkText?: string;
+  isBold?: boolean;
+  align?: 'text-left' | 'text-right' | 'text-center';
   className?: string;
 }
 
-export const LinkText: React.FC<LinkTextProps> = ({ link, linkText, preLinkText, className }) => {
+export const LinkText: React.FC<LinkTextProps> = ({ link, linkText, preLinkText, isBold = true, align = 'text-center', className }) => {
   return (
-    <p className={`mt-10 text-center text-sm text-muted-foreground ${className || ''}`}>
+    <p className={`mt-10 text-sm text-muted-foreground  ${align} ${className || ''}`}>
       {preLinkText && `${preLinkText} `}
-      <Link href={link} className="font-semibold leading-6 text-primary hover:underline text-black">
+      <Link href={link} className={`leading-6 hover:underline text-black ${isBold ? 'font-semibold' : ''}`}>
         {linkText}
       </Link>
     </p>

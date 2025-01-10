@@ -6,6 +6,8 @@ import { Button } from '../ui/button';
 import Separator from '../shared/Separator';
 import { AuthButton } from '../auth/AuthButton';
 import FormHeader from './FormHeader';
+import Loading from '../shared/Loading';
+import CTAButton from '../shared/CTAButton';
 
 function SignUpForm() {
   const {
@@ -42,9 +44,9 @@ function SignUpForm() {
       </div>
       <div className="mt-4" id="clerk-captcha"></div>
 
-      <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
+      <CTAButton loadingText="Signing up ..." isLoading={isSubmitting}>
         Sign up
-      </Button>
+      </CTAButton>
 
       <Separator>Or continue with</Separator>
 
