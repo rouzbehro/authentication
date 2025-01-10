@@ -1,7 +1,7 @@
+import React from 'react';
 import SignInForm from '@/components/forms/SignInForm';
 import SignInFormProvider from '@/components/forms/SignInFormProvider';
 import { LinkText } from '@/components/shared/LinkText';
-import React from 'react';
 
 export default function SignInPage() {
   return (

@@ -1,3 +1,4 @@
+import React from 'react';
 import SignUpFormProvider from '@/components/forms/SignUpFormProvider';
 import SignUpForms from '@/components/forms/SignUpForms';
 import { LinkText } from '@/components/shared/LinkText';

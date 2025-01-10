@@ -1,12 +1,13 @@
 'use client';
 
-import { otpSchema, signInSchema, signUpSchema } from '@/app/validation';
+import { signInSchema } from '@/app/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-import { useSignUp } from '@clerk/nextjs';
+
 import { useRouter } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
+import { useSignIn } from '@clerk/nextjs';
 
 // Define types for SigninForm data
 type SignInFormData = z.infer<typeof signInSchema>;
@@ -19,20 +20,49 @@ interface useFormSignInReturn {
 export const useFormSignIn = (): useFormSignInReturn => {
   const router = useRouter();
   const { toast } = useToast();
-  const { signUp, isLoaded, setActive } = useSignUp();
+  const { isLoaded, signIn, setActive } = useSignIn();
 
   // Dynamic schema based on the current step
   const formMethods = useForm<SignInFormData>({
-    resolver: zodResolver(step === 1 ? signUpSchema : otpSchema),
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
-
       password: '',
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: SignInFormData) => {
     if (!isLoaded) return;
+
+    try {
+      const signInData = data as SignInFormData;
+
+      const signInAttempt = await signIn.create({
+        identifier: signInData.email,
+        password: signInData.password,
+      });
+
+      // If sign-in process is complete, set the created session as active
+      // and redirect the user
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId });
+        router.push('/');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Verification Failed',
+          description: 'Something went wrong. Please try a different email address.',
+        });
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    }
   };
 
   return {

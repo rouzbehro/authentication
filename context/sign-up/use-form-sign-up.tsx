@@ -77,11 +77,6 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        // Log error only in production
-        if (process.env.NODE_ENV === 'production') {
-          console.error('Error:', error);
-        }
-
         toast({
           variant: 'destructive',
           title: 'Error',
