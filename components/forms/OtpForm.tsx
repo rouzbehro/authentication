@@ -1,7 +1,6 @@
 import React from 'react';
 import OtpField from '../form/fields/OtpField';
 import { useFormContext } from 'react-hook-form';
-import { H3, SmallText } from '../shared/Typography';
 import { Button } from '../ui/button';
 import FormHeader from './FormHeader';
 

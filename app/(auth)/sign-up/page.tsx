@@ -16,7 +16,7 @@ export default function SignUpPage() {
             <SignUpForms />
           </SignUpFormProvider>
         </FormStepContextProvider>
-        <LinkText link="/auth/signin" linkText="Sign in here" preLinkText="Already have an account?" />
+        <LinkText link="/sign-in" linkText="Sign in here" preLinkText="Already have an account?" />
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { InputField } from '../form/fields/InputField';
 import { PasswordField } from '../form/fields/PasswordField';
-import { H3, SmallText } from '../shared/Typography';
 import { Button } from '../ui/button';
 import Separator from '../shared/Separator';
 import { AuthButton } from '../auth/AuthButton';

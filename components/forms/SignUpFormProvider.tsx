@@ -2,7 +2,7 @@
 
 import { useFormSignUp } from '@/context/sign-up/use-form-sign-up';
 import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 
 type Props = {
   children: React.ReactNode;

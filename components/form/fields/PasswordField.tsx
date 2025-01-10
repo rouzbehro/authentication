@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
