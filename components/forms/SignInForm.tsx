@@ -9,7 +9,7 @@ import { InputField } from '../form/fields/InputField';
 import { PasswordField } from '../form/fields/PasswordField';
 import { LinkText } from '../shared/LinkText';
 import CTAButton from '../shared/CTAButton';
-import { useOAuthSignIn } from '@/hooks/auth/use-oauth-sign-in';
+import { useOAuthSignInSignUp } from '@/hooks/auth/use-oauth-sign-in-sign-up';
 
 function SignInForm() {
   const {
@@ -17,7 +17,7 @@ function SignInForm() {
     formState: { errors, isSubmitting },
   } = useFormContext();
 
-  const oauthSignIn = useOAuthSignIn('/sign-up/sso-callback', '/');
+  const oauthSignInSignUp = useOAuthSignInSignUp();
 
   return (
     <>
@@ -34,10 +34,10 @@ function SignInForm() {
 
       <Separator>Or continue with</Separator>
 
-      {oauthSignIn && (
+      {oauthSignInSignUp && (
         <div className="space-y-2 mt-4">
-          <AuthButton provider="google" text="Sign in with Google" onClick={() => oauthSignIn.signInWithOAuth('oauth_google')} />
-          <AuthButton provider="apple" text="Sign in with Apple" onClick={() => oauthSignIn.signInWithOAuth('oauth_apple')} />
+          <AuthButton provider="google" text="Sign in with Google" onClick={() => oauthSignInSignUp.handleOAuthSignIn('oauth_google')} />
+          <AuthButton provider="apple" text="Sign in with Apple" onClick={() => oauthSignInSignUp.handleOAuthSignIn('oauth_apple')} />
         </div>
       )}
     </>

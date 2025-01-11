@@ -4,7 +4,7 @@ import { useSignIn, useSignUp } from '@clerk/nextjs';
 import { OAuthStrategy } from '@clerk/types';
 import { useToast } from '../use-toast';
 
-export const useOAuthSignIn = (defaultRedirectUrl: string, completeRedirectUrl: string) => {
+export const useOAuthSignInSignUp = () => {
   const { signIn } = useSignIn();
   const { signUp, setActive } = useSignUp();
   const { toast } = useToast();
@@ -17,6 +17,7 @@ export const useOAuthSignIn = (defaultRedirectUrl: string, completeRedirectUrl: 
     return null;
   }
 
+  // Simple sign-in function
   const signInWith = async (strategy: OAuthStrategy) => {
     try {
       await signIn.authenticateWithRedirect({
@@ -35,6 +36,7 @@ export const useOAuthSignIn = (defaultRedirectUrl: string, completeRedirectUrl: 
     }
   };
 
+  // Advanced sign-in function with transferable account handling
   const handleOAuthSignIn = async (strategy: OAuthStrategy) => {
     try {
       // Check if the user exists but needs to sign in with an OAuth account
@@ -59,18 +61,10 @@ export const useOAuthSignIn = (defaultRedirectUrl: string, completeRedirectUrl: 
           setActive({ session: res.createdSessionId });
           return;
         }
-      } else {
-        // If the user has an account in your application
-        // and has an OAuth account connected to it, you can sign them in.
-        signInWith(strategy);
       }
 
       // Default case: Authenticate with redirect
-      await signIn.authenticateWithRedirect({
-        strategy,
-        redirectUrl: defaultRedirectUrl,
-        redirectUrlComplete: completeRedirectUrl,
-      });
+      await signInWith(strategy);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({
@@ -82,5 +76,5 @@ export const useOAuthSignIn = (defaultRedirectUrl: string, completeRedirectUrl: 
     }
   };
 
-  return { handleOAuthSignIn };
+  return { signInWith, handleOAuthSignIn };
 };

@@ -6,12 +6,15 @@ import Separator from '../shared/Separator';
 import { AuthButton } from '../auth/AuthButton';
 import FormHeader from './FormHeader';
 import CTAButton from '../shared/CTAButton';
+import { useOAuthSignInSignUp } from '@/hooks/auth/use-oauth-sign-in-sign-up';
 
 function SignUpForm() {
   const {
     register,
     formState: { errors, isSubmitting },
   } = useFormContext();
+
+  const oauthSignInSignUp = useOAuthSignInSignUp();
 
   return (
     <>
@@ -48,10 +51,12 @@ function SignUpForm() {
 
       <Separator>Or continue with</Separator>
 
-      <div className="space-y-2 mt-4">
-        <AuthButton provider="google" text="Sign up with Google" disabled={isSubmitting} />
-        <AuthButton provider="apple" text="Sign up with Apple" disabled={isSubmitting} />
-      </div>
+      {oauthSignInSignUp && (
+        <div className="space-y-2 mt-4">
+          <AuthButton provider="google" text="Sign up with Google" onClick={() => oauthSignInSignUp.handleOAuthSignIn('oauth_google')} />
+          <AuthButton provider="apple" text="Sign up with Apple" onClick={() => oauthSignInSignUp.handleOAuthSignIn('oauth_apple')} />
+        </div>
+      )}
     </>
   );
 }
