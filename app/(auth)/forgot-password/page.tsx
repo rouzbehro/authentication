@@ -1,6 +1,6 @@
 import React from 'react';
 import { LinkText } from '@/components/shared/LinkText';
-import { FormStepContextProvider } from '@/context/shared/use-form-steps-context';
+import { FormStepContextProvider } from '@/context/use-form-steps-context';
 import ForgotPasswordFormProvider from '@/components/forms/ForgotPasswordFormProvider';
 import ForgotPasswordForms from '@/components/forms/ForgotPasswordForms';
 

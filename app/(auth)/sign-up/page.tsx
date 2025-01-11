@@ -3,7 +3,7 @@ import SignUpFormProvider from '@/components/forms/SignUpFormProvider';
 import SignUpForms from '@/components/forms/SignUpForms';
 import { LinkText } from '@/components/shared/LinkText';
 
-import { FormStepContextProvider } from '@/context/shared/use-form-steps-context';
+import { FormStepContextProvider } from '@/context/use-form-steps-context';
 
 export default function SignUpPage() {
   return (

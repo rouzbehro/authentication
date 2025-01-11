@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth, useSignIn } from '@clerk/nextjs';
-import { useFormStep } from '../shared/use-form-steps-context';
+import { useFormStep } from '@/context/use-form-steps-context';
 
 // Define types for SigninForm data
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;

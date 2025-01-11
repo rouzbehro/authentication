@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormForgotPassword } from '@/context/auth/use-form-forgot-password';
+import { useFormForgotPassword } from '@/hooks/auth/use-form-forgot-password';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 

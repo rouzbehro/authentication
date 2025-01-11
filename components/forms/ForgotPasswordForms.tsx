@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useFormStep } from '@/context/shared/use-form-steps-context';
+import { useFormStep } from '@/context/use-form-steps-context';
 import dynamic from 'next/dynamic';
 import Loading from '../shared/Loading';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormSignIn } from '@/context/auth/use-form-sign-in';
+import { useFormSignIn } from '@/hooks/auth/use-form-sign-in';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
