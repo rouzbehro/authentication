@@ -19,15 +19,37 @@ interface UseFormSignUpReturn {
   handleBack: () => void;
 }
 
+// Helper to handle errors
+const handleError = (err: unknown, toast: any, goBack?: () => void) => {
+  let errorMessage = 'An unknown error occurred';
+
+  if (err instanceof Error) {
+    errorMessage = err.message;
+  } else if (typeof err === 'object' && err && 'errors' in err) {
+    errorMessage = (err as any).errors?.[0]?.longMessage || errorMessage;
+  }
+
+  toast({
+    variant: 'destructive',
+    title: 'Error',
+    description: errorMessage,
+  });
+
+  // Call the goBack function if an error occurs
+  if (goBack) {
+    goBack();
+  }
+};
+
 export const useFormSignUp = (): UseFormSignUpReturn => {
   const router = useRouter();
   const { toast } = useToast();
   const { step, setStep } = useFormStep();
   const { signUp, isLoaded, setActive } = useSignUp();
 
-  // Dynamic schema based on the current step
+  const schema = step === 1 ? signUpSchema : otpSchema;
   const formMethods = useForm<SignUpFormData | OtpFormData>({
-    resolver: zodResolver(step === 1 ? signUpSchema : otpSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       email: '',
       firstName: '',
@@ -37,52 +59,53 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
     },
   });
 
+  const handleSignUp = async (data: SignUpFormData) => {
+    try {
+      await signUp?.create({
+        emailAddress: data.email,
+        password: data.password,
+      });
+
+      await signUp?.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      });
+
+      setStep(2);
+    } catch (err: unknown) {
+      handleError(err, toast);
+    }
+  };
+
+  const handleOtpVerification = async (data: OtpFormData) => {
+    try {
+      const signUpAttempt = await signUp?.attemptEmailAddressVerification({
+        code: data.otp,
+      });
+
+      if (signUpAttempt?.status === 'complete') {
+        await setActive?.({ session: signUpAttempt.createdSessionId });
+        router.push('/'); // Redirect to home or dashboard
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Verification Failed',
+          description: 'Something went wrong. Please try a different email address.',
+        });
+
+        setStep(1);
+      }
+    } catch (err: unknown) {
+      handleError(err, toast, () => setStep(1));
+    }
+  };
+
   const onSubmit = async (data: SignUpFormData | OtpFormData) => {
     if (!isLoaded) return;
 
-    try {
-      if (step === 1) {
-        const signUpData = data as SignUpFormData; // Explicitly cast for step 1
-        await signUp.create({
-          emailAddress: signUpData.email,
-          password: signUpData.password,
-        });
-
-        // Prepare for OTP verification
-        await signUp.prepareEmailAddressVerification({
-          strategy: 'email_code',
-        });
-
-        setStep(2); // Move to OTP step
-      } else if (step === 2) {
-        const otpData = data as OtpFormData; // Explicitly cast for step 2
-        const signUpAttempt = await signUp.attemptEmailAddressVerification({
-          code: otpData.otp,
-        });
-
-        if (signUpAttempt.status === 'complete') {
-          await setActive({ session: signUpAttempt.createdSessionId });
-          router.push('/'); // Redirect to home or dashboard
-        } else {
-          // Show toast message and reset to step 1
-          toast({
-            variant: 'destructive',
-            title: 'Verification Failed',
-            description: 'Something went wrong. Please try a different email address.',
-          });
-
-          // Reset to the first step
-          setStep(1);
-        }
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: error.message,
-        });
-      }
+    if (step === 1) {
+      await handleSignUp(data as SignUpFormData);
+    } else {
+      await handleOtpVerification(data as OtpFormData);
     }
   };
 
