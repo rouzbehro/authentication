@@ -14,18 +14,18 @@ datasource db {
 }
 
 model User {
-  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // Primary key, generated as a UUID by the database
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid // Primary key, generated as a UUID by the database
   firstName   String
   lastName    String
-  email       String      @unique
-  clerkId     String      @unique
+  email       String       @unique
+  clerkId     String       @unique
   oAuthType   String?
   title       String?
-  interests   String[]
-  accountType AccountType
-  location    String[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  interests   String[]     @default([])
+  accountType AccountType? @default(INDIVIDUAL)
+  location    String[]     @default([])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   companyId String?  @db.Uuid // Foreign key referencing the company the user belongs to, nullable if no company
   company   Company? @relation(fields: [companyId], references: [id]) // Relationship to the Company model
