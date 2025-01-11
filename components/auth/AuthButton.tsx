@@ -48,7 +48,7 @@ export const AuthButton: React.FC<AuthButtonProps> = ({ provider, text, onClick,
   };
 
   return (
-    <Button onClick={onClick} variant="outline" className={`flex items-center w-full ${className || ''}`} disabled={disabled}>
+    <Button type="reset" onClick={onClick} variant="outline" className={`flex items-center w-full ${className || ''}`} disabled={disabled}>
       <span className="mr-2">{icons[provider]}</span>
       {text}
     </Button>

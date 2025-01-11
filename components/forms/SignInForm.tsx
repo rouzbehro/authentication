@@ -9,12 +9,15 @@ import { InputField } from '../form/fields/InputField';
 import { PasswordField } from '../form/fields/PasswordField';
 import { LinkText } from '../shared/LinkText';
 import CTAButton from '../shared/CTAButton';
+import { useOAuthSignIn } from '@/hooks/auth/use-oauth-sign-in';
 
 function SignInForm() {
   const {
     register,
     formState: { errors, isSubmitting },
   } = useFormContext();
+
+  const oauthSignIn = useOAuthSignIn('/sign-up/sso-callback', '/');
 
   return (
     <>
@@ -31,10 +34,12 @@ function SignInForm() {
 
       <Separator>Or continue with</Separator>
 
-      <div className="space-y-2 mt-4">
-        <AuthButton provider="google" text="Sign in with Google" disabled={false} />
-        <AuthButton provider="apple" text="Sign in with Apple" disabled={false} />
-      </div>
+      {oauthSignIn && (
+        <div className="space-y-2 mt-4">
+          <AuthButton provider="google" text="Sign in with Google" onClick={() => oauthSignIn.signInWithOAuth('oauth_google')} />
+          <AuthButton provider="apple" text="Sign in with Apple" onClick={() => oauthSignIn.signInWithOAuth('oauth_apple')} />
+        </div>
+      )}
     </>
   );
 }
