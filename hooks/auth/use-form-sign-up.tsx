@@ -46,6 +46,7 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
   const { toast } = useToast();
   const { step, setStep } = useFormStep();
   const { signUp, isLoaded, setActive } = useSignUp();
+  const userPortalUrl = process.env.USER_PORTAL_URL || '/dashboard';
 
   const schema = step === 1 ? signUpSchema : otpSchema;
   const formMethods = useForm<SignUpFormData | OtpFormData>({
@@ -64,6 +65,8 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
       await signUp?.create({
         emailAddress: data.email,
         password: data.password,
+        firstName: data.firstName,
+        lastName: data.lastName,
       });
 
       await signUp?.prepareEmailAddressVerification({
@@ -84,7 +87,7 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
 
       if (signUpAttempt?.status === 'complete') {
         await setActive?.({ session: signUpAttempt.createdSessionId });
-        router.push('/'); // Redirect to home or dashboard
+        router.push(userPortalUrl);
       } else {
         toast({
           variant: 'destructive',

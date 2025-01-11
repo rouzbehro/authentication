@@ -3,11 +3,9 @@
 import { forgotPasswordSchema, resetPasswordSchema } from '@/app/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-
-import { useRouter } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { z } from 'zod';
-import { useAuth, useSignIn } from '@clerk/nextjs';
+import { useSignIn } from '@clerk/nextjs';
 import { useFormStep } from '@/context/use-form-steps-context';
 
 // Define types for SigninForm data
@@ -52,16 +50,9 @@ const handleError = (err: unknown, toast: any, goBack?: () => void) => {
 };
 
 export const useFormForgotPassword = (): useFormForgotPasswordReturn => {
-  const router = useRouter();
   const { toast } = useToast();
   const { step, setStep } = useFormStep();
-  const { isSignedIn } = useAuth();
   const { isLoaded, signIn, setActive } = useSignIn();
-
-  // If the user is already signed in, redirect them to the home page
-  if (isSignedIn) {
-    router.push('/');
-  }
 
   const schema = step === 1 ? forgotPasswordSchema : resetPasswordSchema;
   const formMethods = useForm<ForgotPasswordFormData | ResetPasswordFormData>({

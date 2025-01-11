@@ -11,7 +11,7 @@ export const useOAuthSignInSignUp = () => {
 
   // Read redirect URLs from environment variables
   const redirectUrl = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URL || '/sign-up/sso-callback';
-  const redirectUrlComplete = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_COMPLETE || '/';
+  const redirectUrlComplete = process.env.USER_PORTAL_URL || '/dashboard';
 
   if (!signIn || !signUp) {
     return null;

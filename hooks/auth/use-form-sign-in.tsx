@@ -21,6 +21,7 @@ export const useFormSignIn = (): useFormSignInReturn => {
   const router = useRouter();
   const { toast } = useToast();
   const { isLoaded, signIn, setActive } = useSignIn();
+  const userPortalUrl = process.env.USER_PORTAL_URL || '/dashboard';
 
   // Dynamic schema based on the current step
   const formMethods = useForm<SignInFormData>({
@@ -46,7 +47,7 @@ export const useFormSignIn = (): useFormSignInReturn => {
       // and redirect the user
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.push('/');
+        router.push(userPortalUrl);
       } else {
         toast({
           variant: 'destructive',
