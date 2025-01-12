@@ -9,7 +9,6 @@ export const useOAuthSignInSignUp = () => {
   const { signUp, setActive } = useSignUp();
   const { toast } = useToast();
 
-  // Read redirect URLs from environment variables
   const redirectUrl = process.env.NEXT_PUBLIC_OAUTH_REDIRECT_URL || '/sign-up/sso-callback';
   const redirectUrlComplete = process.env.USER_PORTAL_URL || '/dashboard';
 
@@ -17,8 +16,8 @@ export const useOAuthSignInSignUp = () => {
     return null;
   }
 
-  // Simple sign-in function
   const signInWith = async (strategy: OAuthStrategy) => {
+    alert('sign in called');
     try {
       await signIn.authenticateWithRedirect({
         strategy,
@@ -36,8 +35,26 @@ export const useOAuthSignInSignUp = () => {
     }
   };
 
-  // Advanced sign-in function with transferable account handling
-  const handleOAuthSignIn = async (strategy: OAuthStrategy) => {
+  const signUpWith = async (strategy: OAuthStrategy) => {
+    alert('sign up called');
+    try {
+      await signUp.authenticateWithRedirect({
+        strategy,
+        redirectUrl,
+        redirectUrlComplete,
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: error.message,
+        });
+      }
+    }
+  };
+
+  const handleOAuthSignInSignUp = async (strategy: OAuthStrategy) => {
     try {
       // Check if the user exists but needs to sign in with an OAuth account
       const userExistsButNeedsToSignIn =
@@ -63,8 +80,11 @@ export const useOAuthSignInSignUp = () => {
         }
       }
 
-      // Default case: Authenticate with redirect
-      await signInWith(strategy);
+      try {
+        await signInWith(strategy);
+      } catch (signInError) {
+        await signUpWith(strategy);
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({
@@ -76,5 +96,5 @@ export const useOAuthSignInSignUp = () => {
     }
   };
 
-  return { signInWith, handleOAuthSignIn };
+  return { signInWith, signUpWith, handleOAuthSignInSignUp };
 };

@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useFormStep } from '@/context/use-form-steps-context';
 import { z } from 'zod';
+import { createUser } from '@/actions/user';
+import { useState } from 'react';
 
 // Define types for SignUpForm data and OTP data
 type SignUpFormData = z.infer<typeof signUpSchema>;
@@ -35,7 +37,6 @@ const handleError = (err: unknown, toast: any, goBack?: () => void) => {
     description: errorMessage,
   });
 
-  // Call the goBack function if an error occurs
   if (goBack) {
     goBack();
   }
@@ -46,6 +47,8 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
   const { toast } = useToast();
   const { step, setStep } = useFormStep();
   const { signUp, isLoaded, setActive } = useSignUp();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [signUpData, setSignUpData] = useState<SignUpFormData | null>(null);
   const userPortalUrl = process.env.USER_PORTAL_URL || '/dashboard';
 
   const schema = step === 1 ? signUpSchema : otpSchema;
@@ -62,6 +65,7 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
 
   const handleSignUp = async (data: SignUpFormData) => {
     try {
+      setIsSubmitting(true);
       await signUp?.create({
         emailAddress: data.email,
         password: data.password,
@@ -73,9 +77,12 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
         strategy: 'email_code',
       });
 
-      setStep(2);
+      setSignUpData(data); // Store data from the first step
+      setStep(2); // Go to OTP step
     } catch (err: unknown) {
       handleError(err, toast);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -85,25 +92,33 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
         code: data.otp,
       });
 
-      if (signUpAttempt?.status === 'complete') {
-        await setActive?.({ session: signUpAttempt.createdSessionId });
-        router.push(userPortalUrl);
+      if (signUpAttempt?.status === 'complete' && signUpData) {
+        const signedUpUser = await createUser({
+          firstName: signUpData.firstName,
+          lastName: signUpData.lastName,
+          email: signUpData.email,
+          clerkId: signUp?.createdUserId!,
+        });
+
+        if (signedUpUser?.status === 200 && signedUpUser.user) {
+          await setActive?.({ session: signUpAttempt.createdSessionId });
+          router.push(userPortalUrl);
+        }
       } else {
         toast({
           variant: 'destructive',
           title: 'Verification Failed',
-          description: 'Something went wrong. Please try a different email address.',
+          description: 'Please try again with a different email address.',
         });
-
-        setStep(1);
+        setStep(1); // Go back to the first step
       }
     } catch (err: unknown) {
-      handleError(err, toast, () => setStep(1));
+      handleError(err, toast, () => setStep(1)); // Go back to step 1 on error
     }
   };
 
   const onSubmit = async (data: SignUpFormData | OtpFormData) => {
-    if (!isLoaded) return;
+    if (!isLoaded || isSubmitting) return;
 
     if (step === 1) {
       await handleSignUp(data as SignUpFormData);

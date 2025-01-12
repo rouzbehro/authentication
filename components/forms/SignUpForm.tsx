@@ -53,8 +53,8 @@ function SignUpForm() {
 
       {oauthSignInSignUp && (
         <div className="space-y-2 mt-4">
-          <AuthButton provider="google" text="Sign up with Google" onClick={() => oauthSignInSignUp.handleOAuthSignIn('oauth_google')} />
-          <AuthButton provider="apple" text="Sign up with Apple" onClick={() => oauthSignInSignUp.handleOAuthSignIn('oauth_apple')} />
+          <AuthButton provider="google" text="Sign up with Google" onClick={() => oauthSignInSignUp.signUpWith('oauth_google')} />
+          <AuthButton provider="apple" text="Sign up with Apple" onClick={() => oauthSignInSignUp.signUpWith('oauth_apple')} />
         </div>
       )}
     </>
