@@ -32,8 +32,7 @@ model User {
   teamId String? @unique @db.Uuid // Foreign key referencing the team the user belongs to, unique to ensure one team per user
   team   Team?   @relation(fields: [teamId], references: [id]) // Relationship to the Team model
 
-  isOnboarded    Boolean        @default(false) // Tracks if the user has completed onboarding
-  onboardingStep OnboardingStep @default(STEP_1) // Tracks the current onboarding step
+  isOnboarded Boolean @default(false) // Tracks if the user has completed onboarding
 }
 
 model Team {
@@ -61,12 +60,4 @@ model Company {
 enum AccountType {
   INDIVIDUAL
   TEAM
-}
-
-enum OnboardingStep {
-  STEP_1 // Step 1: The first step in the onboarding process
-  STEP_2 // Step 2: The second step in the onboarding process
-  STEP_3 // Step 3: The third step in the onboarding process
-  STEP_4 // Step 4: The fourth step in the onboarding process
-  STEP_5 // Step 5: The fifth step in the onboarding process (optional for team accounts)
 }
