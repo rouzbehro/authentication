@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import { useFormStep } from '@/context/use-form-steps-context';
 import { z } from 'zod';
-import { createUser } from '@/actions/user';
+import { createUserWithDetails } from '@/actions/user';
 import { useState } from 'react';
 
 // Define types for SignUpForm data and OTP data
@@ -93,7 +93,7 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
       });
 
       if (signUpAttempt?.status === 'complete' && signUpData) {
-        const signedUpUser = await createUser({
+        const signedUpUser = await createUserWithDetails({
           firstName: signUpData.firstName,
           lastName: signUpData.lastName,
           email: signUpData.email,

@@ -16,85 +16,37 @@ export const useOAuthSignInSignUp = () => {
     return null;
   }
 
-  const signInWith = async (strategy: OAuthStrategy) => {
-    alert('sign in called');
+  const handleAuthError = (error: unknown) => {
+    if (error instanceof Error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message,
+      });
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Unexpected Error',
+        description: 'An unexpected error occurred. Please try again.',
+      });
+    }
+  };
+
+  const authenticateWithRedirect = async (method: 'signIn' | 'signUp', strategy: OAuthStrategy) => {
     try {
-      await signIn.authenticateWithRedirect({
+      const authMethod = method === 'signIn' ? signIn : signUp;
+      await authMethod.authenticateWithRedirect({
         strategy,
         redirectUrl,
         redirectUrlComplete,
       });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: error.message,
-        });
-      }
+    } catch (error) {
+      handleAuthError(error);
     }
   };
 
-  const signUpWith = async (strategy: OAuthStrategy) => {
-    alert('sign up called');
-    try {
-      await signUp.authenticateWithRedirect({
-        strategy,
-        redirectUrl,
-        redirectUrlComplete,
-      });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: error.message,
-        });
-      }
-    }
-  };
+  const signInWith = (strategy: OAuthStrategy) => authenticateWithRedirect('signIn', strategy);
+  const signUpWith = (strategy: OAuthStrategy) => authenticateWithRedirect('signUp', strategy);
 
-  const handleOAuthSignInSignUp = async (strategy: OAuthStrategy) => {
-    try {
-      // Check if the user exists but needs to sign in with an OAuth account
-      const userExistsButNeedsToSignIn =
-        signUp.verifications.externalAccount.status === 'transferable' &&
-        signUp.verifications.externalAccount.error?.code === 'external_account_exists';
-
-      if (userExistsButNeedsToSignIn) {
-        const res = await signIn.create({ transfer: true });
-        if (res.status === 'complete') {
-          setActive({ session: res.createdSessionId });
-          return;
-        }
-      }
-
-      // Check if the user needs to be created using OAuth information
-      const userNeedsToBeCreated = signIn.firstFactorVerification.status === 'transferable';
-
-      if (userNeedsToBeCreated) {
-        const res = await signUp.create({ transfer: true });
-        if (res.status === 'complete') {
-          setActive({ session: res.createdSessionId });
-          return;
-        }
-      }
-
-      try {
-        await signInWith(strategy);
-      } catch (signInError) {
-        await signUpWith(strategy);
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: error.message,
-        });
-      }
-    }
-  };
-
-  return { signInWith, signUpWith, handleOAuthSignInSignUp };
+  return { signInWith, signUpWith };
 };

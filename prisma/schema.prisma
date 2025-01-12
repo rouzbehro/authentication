@@ -19,7 +19,6 @@ model User {
   lastName    String
   email       String       @unique
   clerkId     String       @unique
-  oAuthType   String?
   title       String?
   interests   String[]     @default([])
   accountType AccountType? @default(INDIVIDUAL)
