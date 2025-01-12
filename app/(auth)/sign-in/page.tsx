@@ -1,6 +1,6 @@
 import React from 'react';
-import SignInForm from '@/components/forms/SignInForm';
-import SignInFormProvider from '@/components/forms/SignInFormProvider';
+import SignInForm from '@/components/forms/signIn/SignInForm';
+import SignInFormProvider from '@/components/forms/signIn/SignInFormProvider';
 import { LinkText } from '@/components/shared/LinkText';
 import Image from 'next/image';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import SignUpFormProvider from '@/components/forms/SignUpFormProvider';
-import SignUpForms from '@/components/forms/SignUpForms';
+import SignUpFormProvider from '@/components/forms/signUp/SignUpFormProvider';
+import SignUpForms from '@/components/forms/signUp/SignUpForms';
 import { FormStepContextProvider } from '@/context/use-form-steps-context';
 import { LinkText } from '@/components/shared/LinkText';
 

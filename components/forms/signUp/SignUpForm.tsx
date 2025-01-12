@@ -1,12 +1,13 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { InputField } from '../form/fields/InputField';
-import { PasswordField } from '../form/fields/PasswordField';
-import Separator from '../shared/Separator';
-import { AuthButton } from '../auth/AuthButton';
-import FormHeader from './FormHeader';
-import CTAButton from '../shared/CTAButton';
+import { InputField } from '../../form/fields/InputField';
+import { PasswordField } from '../../form/fields/PasswordField';
+import Separator from '../../shared/Separator';
+import { AuthButton } from '../../auth/AuthButton';
+
+import CTAButton from '../../shared/CTAButton';
 import { useOAuthSignInSignUp } from '@/hooks/auth/use-oauth-sign-in-sign-up';
+import FormHeader from '@/components/form/shared/FormHeader';
 
 function SignUpForm() {
   const {

@@ -1,6 +1,6 @@
 'use client';
 
-import { forgotPasswordSchema, resetPasswordSchema } from '@/app/validation';
+import { forgotPasswordSchema, resetPasswordSchema } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { useForm, UseFormReturn } from 'react-hook-form';

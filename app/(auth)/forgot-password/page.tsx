@@ -1,9 +1,9 @@
 import React from 'react';
-import ForgotPasswordFormProvider from '@/components/forms/ForgotPasswordFormProvider';
-import ForgotPasswordForms from '@/components/forms/ForgotPasswordForms';
 import Image from 'next/image';
 import { FormStepContextProvider } from '@/context/use-form-steps-context';
 import { LinkText } from '@/components/shared/LinkText';
+import ForgotPasswordFormProvider from '@/components/forms/forgotPassword/ForgotPasswordFormProvider';
+import ForgotPasswordForms from '@/components/forms/forgotPassword/ForgotPasswordForms';
 
 export default function ForgotPasswordPage() {
   return (

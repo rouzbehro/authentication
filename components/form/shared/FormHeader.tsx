@@ -1,5 +1,5 @@
+import { H3, SmallText } from '@/components/shared/Typography';
 import React from 'react';
-import { H3, SmallText } from '../shared/Typography';
 
 const FormHeader = ({ title, subtitle }: { title: string; subtitle: string }) => (
   <div className="text-center">

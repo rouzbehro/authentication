@@ -3,24 +3,24 @@
 import React from 'react';
 import { useFormStep } from '@/context/use-form-steps-context';
 import dynamic from 'next/dynamic';
-import Loading from '../shared/Loading';
+import Loading from '@/components/shared/Loading';
 
-const SignUpFormInputs = dynamic(() => import('./SignUpForm'), {
+const ForgotPasswordFormInputs = dynamic(() => import('./ForgotPasswordForm'), {
   loading: () => <Loading />,
   ssr: false,
 });
 
-const OTPFormInputs = dynamic(() => import('./OtpForm'), {
+const ResetPasswordFormInputs = dynamic(() => import('./ResetPasswordForm'), {
   loading: () => <Loading />,
   ssr: false,
 });
 
 const stepComponents: { [key: number]: React.ComponentType } = {
-  1: SignUpFormInputs,
-  2: OTPFormInputs,
+  1: ForgotPasswordFormInputs,
+  2: ResetPasswordFormInputs,
 };
 
-const SignUpForms = () => {
+const ForgotPasswordForms = () => {
   const { step } = useFormStep();
 
   // Dynamically determine the step component
@@ -28,4 +28,4 @@ const SignUpForms = () => {
   return StepComponent && <StepComponent />;
 };
 
-export default SignUpForms;
+export default ForgotPasswordForms;

@@ -1,9 +1,10 @@
 import React from 'react';
-import FormHeader from './FormHeader';
-import CTAButton from '../shared/CTAButton';
+
+import CTAButton from '../../shared/CTAButton';
 import { useFormContext } from 'react-hook-form';
-import { PasswordField } from '../form/fields/PasswordField';
-import { InputField } from '../form/fields/InputField';
+import { PasswordField } from '../../form/fields/PasswordField';
+import { InputField } from '../../form/fields/InputField';
+import FormHeader from '@/components/form/shared/FormHeader';
 
 const ResetPasswordForm = () => {
   const {

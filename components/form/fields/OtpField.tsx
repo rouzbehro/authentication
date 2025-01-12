@@ -5,14 +5,13 @@ import { FormItem, FormControl, FormMessage, FormLabel } from '@/components/ui/f
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp';
 
 interface OtpFieldProps {
-  register: ReturnType<typeof import('react-hook-form').useForm>['register'];
   setValue: ReturnType<typeof import('react-hook-form').useForm>['setValue']; // Use setValue from form context
   name: string;
   label?: string;
   errors: FieldValues['errors'];
 }
 
-const OtpField: React.FC<OtpFieldProps> = ({ register, name, label, errors, setValue }) => {
+const OtpField: React.FC<OtpFieldProps> = ({ name, label, errors, setValue }) => {
   const handleChange = (value: string) => {
     setValue(name, value, { shouldValidate: true });
   };

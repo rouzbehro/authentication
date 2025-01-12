@@ -1,8 +1,8 @@
+import { InputField } from '@/components/form/fields/InputField';
+import FormHeader from '@/components/form/shared/FormHeader';
+import CTAButton from '@/components/shared/CTAButton';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { InputField } from '../form/fields/InputField';
-import FormHeader from './FormHeader';
-import CTAButton from '../shared/CTAButton';
 
 function ForgotPasswordForm() {
   const {

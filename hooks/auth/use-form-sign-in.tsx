@@ -1,6 +1,6 @@
 'use client';
 
-import { signInSchema } from '@/app/validation';
+import { signInSchema } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { otpSchema, signUpSchema } from '@/app/validation';
+import { otpSchema, signUpSchema } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { useSignUp } from '@clerk/nextjs';
