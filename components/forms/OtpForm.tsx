@@ -7,6 +7,7 @@ import CTAButton from '../shared/CTAButton';
 const OtpForm = () => {
   const {
     register,
+    setValue,
     formState: { errors, isSubmitting },
   } = useFormContext();
 
@@ -14,7 +15,7 @@ const OtpForm = () => {
     <>
       <FormHeader title="Verify Your Email Address" subtitle="Enter the 6-digit code sent to your email." />
       <div className="flex justify-center pb-2">
-        <OtpField name="otp" register={register} errors={errors} />
+        <OtpField name="otp" register={register} errors={errors} setValue={setValue} />
       </div>
       <CTAButton type="submit" isLoading={isSubmitting}>
         Verify Your Email Address

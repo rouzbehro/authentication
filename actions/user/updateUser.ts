@@ -18,7 +18,6 @@ export async function updateUser(
       where: { clerkId },
       data,
     });
-    console.log('User updated:', updatedUser);
     return updatedUser;
   } catch (error) {
     console.error('Error updating user:', error);

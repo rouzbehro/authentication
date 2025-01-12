@@ -113,13 +113,12 @@ export const useFormSignUp = (): UseFormSignUpReturn => {
         setStep(1); // Go back to the first step
       }
     } catch (err: unknown) {
-      handleError(err, toast, () => setStep(1)); // Go back to step 1 on error
+      handleError(err, toast);
     }
   };
 
   const onSubmit = async (data: SignUpFormData | OtpFormData) => {
     if (!isLoaded || isSubmitting) return;
-
     if (step === 1) {
       await handleSignUp(data as SignUpFormData);
     } else {
