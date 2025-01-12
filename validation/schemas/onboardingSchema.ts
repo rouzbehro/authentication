@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Step 1: Title selection
-export const Step1Schema = z.object({
+export const step1Schema = z.object({
   title: z.enum(['Appraiser', 'Real Estate Agent', 'Real Estate Investor', 'Landlord', 'Other'], {
     required_error: 'Please select your title.',
   }),
@@ -20,12 +20,12 @@ export const INTERESTS_OPTIONS = [
   'Mortgage Rates',
 ] as const;
 
-export const Step2Schema = z.object({
+export const step2Schema = z.object({
   interests: z.array(z.enum([...INTERESTS_OPTIONS])).nonempty('Please select at least one interest.'),
 });
 
 // Step 3: Account Type selection
-export const Step3Schema = z.object({
+export const step3Schema = z.object({
   accountType: z.enum(['Individual', 'Team'], {
     required_error: 'Please select your account type.',
   }),
@@ -48,35 +48,44 @@ export const PROVINCE_OPTIONS = [
   'Yukon',
 ] as const;
 
-export const Step4Schema = z.object({
-  province: z.enum(PROVINCE_OPTIONS, {
-    required_error: 'Please select a province.',
-  }),
-  companyName: z.string().min(1, 'Company name is required.').max(100, 'Company name must be under 100 characters.'),
-  companyAddress: z.string().min(1, 'Company address is required.').max(200, 'Company address must be under 200 characters.'),
-  companyEmail: z.string().email('Invalid email format.').min(1, 'Company email is required.'),
-  companyPhone: z
-    .string()
-    .regex(/^\+?[0-9\s-]+$/, 'Invalid phone number format.')
-    .min(1, 'Company phone is required.'),
+export const step4Schema = z.object({
+  province: z
+    .enum(PROVINCE_OPTIONS, {
+      required_error: 'Please select a province.',
+    })
+    .refine((value) => PROVINCE_OPTIONS.includes(value), {
+      message: 'Please select a valid province.',
+    }),
+  companyName: z.string().max(100, 'Company name must be under 100 characters.').optional(),
+  companyAddress: z.string().max(200, 'Company address must be under 200 characters.').optional(),
+  companyEmail: z.preprocess((value) => (value === '' ? undefined : value), z.string().email('Invalid email format').optional()),
+  companyPhone: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    z
+      .string()
+      .regex(/^\+?[0-9\s-]+$/, 'Invalid phone number format')
+      .optional()
+  ),
   companyLogo: z
-    .instanceof(File)
-    .refine((file) => file.size <= 5 * 1024 * 1024, { message: 'File size must be less than 5MB.' })
+    .any()
+    .refine((file) => !file || (file instanceof File && file.size <= 5 * 1024 * 1024), {
+      message: 'File size must be less than 5MB.',
+    })
     .optional(),
 });
 
 // Combined schema for all steps
-export const OnboardingSchema = z.object({
-  title: Step1Schema.shape.title,
-  interests: Step2Schema.shape.interests,
-  accountType: Step3Schema.shape.accountType,
-  province: Step4Schema.shape.province,
-  companyName: Step4Schema.shape.companyName,
-  companyAddress: Step4Schema.shape.companyAddress,
-  companyEmail: Step4Schema.shape.companyEmail,
-  companyPhone: Step4Schema.shape.companyPhone,
-  companyLogo: Step4Schema.shape.companyLogo.optional(),
+export const onboardingSchema = z.object({
+  title: step1Schema.shape.title,
+  interests: step2Schema.shape.interests,
+  accountType: step3Schema.shape.accountType,
+  province: step4Schema.shape.province,
+  companyName: step4Schema.shape.companyName,
+  companyAddress: step4Schema.shape.companyAddress,
+  companyEmail: step4Schema.shape.companyEmail,
+  companyPhone: step4Schema.shape.companyPhone,
+  companyLogo: step4Schema.shape.companyLogo.optional(),
 });
 
 // Type for form data inferred from combined schema
-export type OnboardingFormData = z.infer<typeof OnboardingSchema>;
+export type OnboardingFormData = z.infer<typeof onboardingSchema>;

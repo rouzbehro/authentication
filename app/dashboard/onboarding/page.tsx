@@ -1,12 +1,16 @@
-import { SignOutButton } from '@clerk/nextjs';
+'use client';
+
 import React from 'react';
+import { FormStepContextProvider } from '@/context/use-form-steps-context';
+import OnboardingFormProvider from '@/components/forms/onboarding/OnboardingFormProvider';
+import OnboardingForm from '@/components/forms/onboarding/OnboardingForm';
 
-const OnBoardingPage = () => {
+export default function OnboardingPage() {
   return (
-    <div>
-      <SignOutButton />
-    </div>
+    <FormStepContextProvider>
+      <OnboardingFormProvider>
+        <OnboardingForm />
+      </OnboardingFormProvider>
+    </FormStepContextProvider>
   );
-};
-
-export default OnBoardingPage;
+}
