@@ -4,9 +4,12 @@ import { currentUser } from '@clerk/nextjs/server';
 import { prisma } from '../../lib/prisma';
 import { redirect } from 'next/navigation';
 
-export async function getUser(clerkId: string) {
+export async function getUser() {
+  // Fetch the current user from Clerk
   const user = await currentUser();
-  if (!user) redirect('/sign-in');
+  if (!user) {
+    redirect('/sign-in'); // Redirect if the user is not logged in
+  }
 
   try {
     const authenticatedUser = await prisma.user.findUnique({
@@ -20,15 +23,17 @@ export async function getUser(clerkId: string) {
       },
     });
 
-    if (!authenticatedUser?.accountType) {
-      redirect('/onboarding'); // Redirect to onboarding if user not on-boarded
-    }
+    return {
+      status: 200,
+      user: authenticatedUser,
+    };
+  } catch (error: any) {
+    console.error('Error fetching user:', error);
 
-    if (authenticatedUser) {
-      return { status: 200, user: authenticatedUser };
-    }
-    return user;
-  } catch (error) {
-    return { status: 400 };
+    return {
+      status: 500,
+      message: 'An error occurred while fetching the user.',
+      error: error.message || 'Unknown error',
+    };
   }
 }
