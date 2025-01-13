@@ -28,6 +28,7 @@ const CTAButton: React.FC<CTAButtonProps> = ({
       className={cn(
         'w-full mt-4 flex items-center justify-center gap-2 rounded-md transition-all duration-150',
         isLoading && 'cursor-not-allowed',
+        theme === 'secondary' && 'bg-black',
         className
       )}
       disabled={disabled || isLoading}

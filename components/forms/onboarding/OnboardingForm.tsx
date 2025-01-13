@@ -6,6 +6,8 @@ import { useFormContext } from 'react-hook-form';
 import ProgressBar from '@/components/shared/ProgressBar';
 import { useFormStep } from '@/context/use-form-steps-context';
 import Loading from '@/components/shared/Loading';
+import CTAButton from '@/components/shared/CTAButton';
+import { ArrowLeft } from 'lucide-react';
 
 // Dynamically import step components
 const Step1 = dynamic(() => import('./Step1'), { loading: () => <Loading />, ssr: false });
@@ -38,25 +40,22 @@ export default function OnboardingForm() {
 
     // Trigger validation for current step's fields
     const isValid = await trigger(stepFields[step]);
-    if (isValid) {
+    if (!isValid) {
       setStep(step + 1); // Proceed to the next step only if valid
     }
   };
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <ProgressBar step={step} totalSteps={Object.keys(stepComponents).length} />
-      <div className="mt-6">{StepComponent ? <StepComponent /> : <p className="text-center text-lg font-medium">Form complete!</p>}</div>
-      <div className="mt-8 flex justify-between">
-        {step > 1 && (
-          <button type="button" onClick={() => setStep(step - 1)} className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300">
-            Previous
-          </button>
-        )}
+    <div className="flex items-center justify-center h-screen w-screen p-8 sm:p-16 bg-gray-100">
+      <div className="flex flex-col w-full bg-white rounded-3xl p-8 relative pb-24">
+        <div className="min-h-6">
+          {step > 1 && <ArrowLeft className="hover:cursor-pointer hover:text-primary" onClick={() => setStep(step - 1)} />}
+        </div>
+        {StepComponent ? <div className='mb-8'><StepComponent /></div> : <p className="text-center text-lg font-medium">Form complete!</p>}
         {step < Object.keys(stepComponents).length && (
-          <button type="button" onClick={handleNext} className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+          <CTAButton theme="secondary" onClick={handleNext}>
             Next
-          </button>
+          </CTAButton>
         )}
         {step === Object.keys(stepComponents).length && (
           <button type="submit" className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600">
