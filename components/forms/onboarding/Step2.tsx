@@ -1,48 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+
+import { FileText, BarChart2, Home, MapPin, DollarSign, Calculator, TrendingUp, Layers, Percent } from 'lucide-react';
+import ChoiceCard from '@/components/form/fields/ChoiceCars';
+import FormHeader from '@/components/form/shared/FormHeader';
 
 export default function Step2() {
   const {
     register,
+    setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
 
+  const selectedInterests = watch('interests', []);
+
   const interests = [
-    'Rental and Desktop Reports',
-    'Investment Analysis',
-    'Pre-construction Homes',
-    'Neighborhood Analytics',
-    'Cash Flow Analysis',
-    'Property Appraisals',
-    'Market Trends Performance',
-    'Comparable Market Analysis',
-    'Mortgage Rates',
+    { id: 'rental-reports', label: 'Rental and Desktop Reports', icon: <FileText /> },
+    { id: 'investment-analysis', label: 'Investment Analysis', icon: <BarChart2 /> },
+    { id: 'pre-construction', label: 'Pre-construction Homes', icon: <Home /> },
+    { id: 'neighborhood-analytics', label: 'Neighborhood Analytics', icon: <MapPin /> },
+    { id: 'cash-flow', label: 'Cash Flow Analysis', icon: <DollarSign /> },
+    { id: 'property-appraisals', label: 'Property Appraisals', icon: <Calculator /> },
+    { id: 'market-trends', label: 'Market Trends Performance', icon: <TrendingUp /> },
+    { id: 'comparable-analysis', label: 'Comparable Market Analysis', icon: <Layers /> },
+    { id: 'mortgage-rates', label: 'Mortgage Rates', icon: <Percent /> },
   ];
+
+  const handleChoiceChange = (id: string) => {
+    const updatedInterests = selectedInterests.includes(id)
+      ? selectedInterests.filter((item: string) => item !== id)
+      : [...selectedInterests, id];
+
+    setValue('interests', updatedInterests, { shouldValidate: true });
+  };
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-800">Step 2: Interests Selection</h2>
-      <p className="text-sm text-gray-600">Select your interests to help us understand your preferences. You can select multiple options.</p>
+      <FormHeader title="What insights are you looking for?" subtitle="We’ll personalize your experience based on your preferences." />
+
       <div className="mt-4">
         <fieldset>
-          <legend className="block text-sm font-medium text-gray-700 mb-2">Your Interests</legend>
-          <div className="space-y-2">
+          <div className="grid grid-cols-3 gap-4">
             {interests.map((interest) => (
-              <label key={interest} className="flex items-center space-x-2 text-gray-700">
-                <input
-                  type="checkbox"
-                  value={interest}
-                  {...register('interests', {
-                    validate: (value) => (value && value.length > 0) || 'Please select at least one interest.',
-                  })}
-                  className="h-4 w-4 border-gray-300 text-blue-500 focus:ring-blue-500"
-                />
-                <span>{interest}</span>
-              </label>
+              <ChoiceCard
+                key={interest.id}
+                id={interest.id}
+                label={interest.label}
+                icon={interest.icon}
+                isSelected={selectedInterests.includes(interest.id)}
+                onChange={handleChoiceChange}
+              />
             ))}
           </div>
         </fieldset>
-        {errors.interests && <p className="mt-2 text-sm text-red-600">{errors.interests.message}</p>}
+        {errors.interests?.message && <p className="mt-2 text-sm text-red-600">{String(errors.interests.message)}</p>}
       </div>
     </div>
   );

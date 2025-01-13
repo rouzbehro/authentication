@@ -3,7 +3,7 @@ import React from 'react';
 
 const FormHeader = ({ title, subtitle, description }: { title: string; subtitle: string; description?: string }) => (
   <div className="text-center">
-    <H3>{title}</H3>
+    <H3 className='mt-0'>{title}</H3>
     <SmallText>{subtitle}</SmallText>
     {description && <Paragraph>{description}</Paragraph>}
   </div>
