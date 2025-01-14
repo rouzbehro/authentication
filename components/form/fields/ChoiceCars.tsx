@@ -11,8 +11,8 @@ interface ChoiceCardProps {
 const ChoiceCard: React.FC<ChoiceCardProps> = ({ id, label, icon, isSelected, onChange }) => {
   return (
     <div
-      className={`flex flex-col items-center justify-center p-4 border rounded-lg cursor-pointer transition-all ${
-        isSelected ? 'border-green-500 bg-gray-100 shadow-md' : 'border-gray-300 bg-white'
+      className={`flex flex-col items-center justify-center p-4 rounded-lg cursor-pointer transition-all min-h-36 ${
+        isSelected ? 'outline outline-2 outline-green-500 bg-green-50' : 'outline outline-gray-300 outline-1'
       }`}
       onClick={() => onChange(id)}
     >

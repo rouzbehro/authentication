@@ -3,11 +3,8 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useFormContext } from 'react-hook-form';
-import ProgressBar from '@/components/shared/ProgressBar';
 import { useFormStep } from '@/context/use-form-steps-context';
 import Loading from '@/components/shared/Loading';
-import CTAButton from '@/components/shared/CTAButton';
-import { ArrowLeft } from 'lucide-react';
 import MultiStepWrapper from '@/components/shared/MultiStepWrapper';
 
 // Dynamically import step components
@@ -41,11 +38,8 @@ export default function OnboardingForm() {
 
     // Trigger validation for current step's fields
     const isValid = await trigger(stepFields[step]);
-
-    console.log(formState.errors);
-    console.log(step);
     if (isValid) {
-      setStep(step + 1); // Proceed to the next step only if valid
+      setStep(step + 1);
     }
   };
 

@@ -1,38 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+
+import { User, Users } from 'lucide-react';
+import OptionCard from '@/components/form/fields/OptionCard';
+import FormHeader from '@/components/form/shared/FormHeader';
 
 export default function Step3() {
   const {
     register,
     formState: { errors },
+    setValue,
+    watch,
   } = useFormContext();
 
-  const accountTypes = ['Individual', 'Team'];
+  // Watch the selected value to set it as selectedValue for the OptionCard
+  const selectedValue = watch('accountType', '');
+
+  const accountOptions = [
+    {
+      value: 'Individual',
+      label: 'Individual Account',
+      description: 'Perfect for independent appraisers, real estate agents, and investors managing their own workflow.',
+      icon: <User size={24} className="text-gray-700" />,
+      features: ['Access to all main features.', 'Manage reports and data independently.', 'Personalized tools for your needs.'],
+    },
+    {
+      value: 'Team',
+      label: 'Team Account',
+      description: 'Ideal for teams of 5 or more, looking for collaborative tools, centralized billing, and performance tracking.',
+      icon: <Users size={24} className="text-gray-700" />,
+      features: ['Multi-member access under one account.', 'Centralized management and billing.', 'Up to 30% volume discount.'],
+    },
+  ];
+
+  const handleOptionChange = (value: string) => {
+    setValue('accountType', value, { shouldValidate: true });
+  };
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-800">Step 3: Account Type Selection</h2>
-      <p className="text-sm text-gray-600">Select the type of account you want to create. This will determine how your account is configured.</p>
-      <div className="mt-4">
+      <FormHeader title="Choose Your Account Type" subtitle="Choose an account for yourself or your team and start using our tools today." />
+      <div className="mt-4 min-h-[460px] flex flex-col justify-center">
         <fieldset>
-          <legend className="block text-sm font-medium text-gray-700 mb-2">Account Type</legend>
-          <div className="space-y-2">
-            {accountTypes.map((type) => (
-              <label key={type} className="flex items-center space-x-2 text-gray-700">
-                <input
-                  type="radio"
-                  value={type}
-                  {...register('accountType', {
-                    required: 'Please select your account type.',
-                  })}
-                  className="h-4 w-4 border-gray-300 text-blue-500 focus:ring-blue-500"
-                />
-                <span>{type}</span>
-              </label>
-            ))}
-          </div>
+          <OptionCard options={accountOptions} selectedValue={selectedValue} onChange={handleOptionChange} />
         </fieldset>
-        {errors.accountType && <p className="mt-2 text-sm text-red-600">{errors.accountType.message}</p>}
+        {errors.accountType?.message && <p className="mt-2 text-sm text-red-600">{String(errors.accountType.message)}</p>}
       </div>
     </div>
   );

@@ -9,15 +9,15 @@ export const step1Schema = z.object({
 
 // Step 2: Interests selection
 export const INTERESTS_OPTIONS = [
-  'Rental and Desktop Reports',
-  'Investment Analysis',
-  'Pre-construction Homes',
-  'Neighborhood Analytics',
-  'Cash Flow Analysis',
-  'Property Appraisals',
-  'Market Trends Performance',
-  'Comparable Market Analysis',
-  'Mortgage Rates',
+  'rental-reports',
+  'investment-analysis',
+  'pre-construction',
+  'neighborhood-analytics',
+  'cash-flow',
+  'property-appraisals',
+  'market-trends',
+  'comparable-analysis',
+  'mortgage-rates',
 ] as const;
 
 export const step2Schema = z.object({
