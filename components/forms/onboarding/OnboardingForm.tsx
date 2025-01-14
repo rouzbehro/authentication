@@ -26,7 +26,7 @@ const stepComponents: { [key: number]: React.ComponentType } = {
 
 export default function OnboardingForm() {
   const { step, setStep } = useFormStep();
-  const { trigger } = useFormContext();
+  const { trigger, formState } = useFormContext();
 
   // Dynamically determine the step component
   const StepComponent = stepComponents[step] || null;
@@ -41,6 +41,9 @@ export default function OnboardingForm() {
 
     // Trigger validation for current step's fields
     const isValid = await trigger(stepFields[step]);
+
+    console.log(formState.errors);
+    console.log(step);
     if (isValid) {
       setStep(step + 1); // Proceed to the next step only if valid
     }

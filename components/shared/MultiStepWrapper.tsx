@@ -25,7 +25,7 @@ const MultiStepWrapper: React.FC<StepWrapperProps> = ({ step, totalSteps, handle
             <div className="px-4 pt-8 min-h-96 mx-auto">{children}</div>
 
             {/* Footer */}
-            <div className="w-full px-4 pb-8 rounded-b-xl">
+            <div className="w-full px-4 pb-8 pt-5 rounded-b-xl">
               {step < totalSteps && (
                 <CTAButton theme="secondary" onClick={handleNext}>
                   Next
