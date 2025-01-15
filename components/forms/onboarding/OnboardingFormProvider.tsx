@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { OnboardingFormData, onboardingSchema } from '@/validation';
 import { updateUser } from '@/actions/user';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 
 type Props = {
@@ -39,6 +39,7 @@ const OnboardingFormProvider = ({ children }: Props) => {
   const onSubmit = async (data: OnboardingFormData) => {
     if (userId) {
       const updatedUser = await updateUser(userId, data);
+      console.log(updatedUser);
       toast({
         variant: 'default',
         title: 'Error',

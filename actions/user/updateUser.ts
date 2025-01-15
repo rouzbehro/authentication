@@ -18,7 +18,10 @@ export async function updateUser(clerkId: string, rawData: unknown) {
     });
 
     if (!currentUser) {
-      throw new Error('User not found');
+      return {
+        status: 404,
+        message: 'User not found',
+      };
     }
 
     // Extract company and user-related fields
@@ -74,9 +77,17 @@ export async function updateUser(clerkId: string, rawData: unknown) {
       },
     });
 
-    return updatedUser;
-  } catch (error) {
+    return {
+      status: 200,
+      message: 'User updated successfully',
+      user: updatedUser,
+    };
+  } catch (error: any) {
     console.error('Validation or update error:', error);
-    throw new Error('Failed to update user');
+    return {
+      status: 500,
+      message: 'Failed to update user',
+      error: error.message || 'Unknown error',
+    };
   }
 }

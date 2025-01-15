@@ -7,7 +7,6 @@ import { ErrorMessage } from '@hookform/error-message';
 
 export default function Step1() {
   const {
-    register,
     formState: { errors },
     setValue,
     watch,

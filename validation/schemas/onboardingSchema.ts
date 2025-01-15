@@ -72,12 +72,12 @@ export const step4Schema = z.object({
       (file) => {
         console.log('Uploaded value:', file); // Debug log
 
-        if (!file || (file instanceof FileList && file.length === 0)) {
-          console.log('No file uploaded or empty FileList');
+        if (!file || (Array.isArray(file) && file.length === 0)) {
+          console.log('No file uploaded or empty array');
           return true; // File is optional, so pass validation
         }
 
-        const uploadedFile = file instanceof FileList ? file[0] : file;
+        const uploadedFile = Array.isArray(file) ? file[0] : file;
 
         if (!(uploadedFile instanceof File)) {
           console.log('Uploaded input is not a File instance:', uploadedFile);

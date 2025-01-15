@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { User, Users } from 'lucide-react';
@@ -8,7 +8,6 @@ import { ErrorMessage } from '@hookform/error-message';
 
 export default function Step3() {
   const {
-    register,
     formState: { errors },
     setValue,
     watch,

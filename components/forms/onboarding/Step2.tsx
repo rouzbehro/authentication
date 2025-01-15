@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { FileText, BarChart2, Home, MapPin, DollarSign, Calculator, TrendingUp, Layers, Percent } from 'lucide-react';
@@ -8,7 +8,6 @@ import { ErrorMessage } from '@hookform/error-message';
 
 export default function Step2() {
   const {
-    register,
     setValue,
     watch,
     formState: { errors },

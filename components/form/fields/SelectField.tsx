@@ -1,15 +1,16 @@
 import React from 'react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ErrorMessage } from '@hookform/error-message';
+import { FieldValues, useForm } from 'react-hook-form';
 
 interface SelectFieldProps {
   name: string;
   label: string;
   placeholder: string;
   options: string[];
-  register?: any; // Not directly used here but ensures compatibility with React Hook Form
+  register?: ReturnType<typeof useForm>['register'];
   setValue: (name: string, value: string) => void;
-  errors: Record<string, any>; // Error object from React Hook Form
+  errors: FieldValues['errors'];
   className?: string;
 }
 
