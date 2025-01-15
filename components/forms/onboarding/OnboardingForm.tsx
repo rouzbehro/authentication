@@ -23,23 +23,23 @@ const stepComponents: { [key: number]: React.ComponentType } = {
 
 export default function OnboardingForm() {
   const { step, setStep } = useFormStep();
-  const { trigger, formState } = useFormContext();
+  const { trigger } = useFormContext();
 
   // Dynamically determine the step component
   const StepComponent = stepComponents[step] || null;
 
-  const handleNext = async () => {
-    const stepFields: { [key: number]: string[] } = {
-      1: ['title'], // Fields to validate in Step 1
-      2: ['interests'], // Fields to validate in Step 2
-      3: ['accountType'], // Fields to validate in Step 3
-      4: ['province', 'companyName', 'companyAddress', 'companyEmail', 'companyPhone'], // Step 4 fields
-    };
+  const stepFields: { [key: number]: string[] } = {
+    1: ['title'], // Fields to validate in Step 1
+    2: ['interests'], // Fields to validate in Step 2
+    3: ['accountType'], // Fields to validate in Step 3
+    4: ['province', 'companyName', 'companyAddress', 'companyEmail', 'companyPhone'], // Step 4 fields
+  };
 
-    // Trigger validation for current step's fields
+  const handleNext = async () => {
+    // Validate only the current step's fields
     const isValid = await trigger(stepFields[step]);
     if (isValid) {
-      setStep(step + 1);
+      setStep(step + 1); // Proceed to the next step only if valid
     }
   };
 
@@ -47,7 +47,7 @@ export default function OnboardingForm() {
 
   return (
     <MultiStepWrapper step={step} totalSteps={Object.keys(stepComponents).length} handleNext={handleNext} handlePrevious={handlePrevious}>
-      {StepComponent && <StepComponent />}
+      <div className="min-h-[460px] flex justify-center ">{StepComponent && <StepComponent />}</div>
     </MultiStepWrapper>
   );
 }

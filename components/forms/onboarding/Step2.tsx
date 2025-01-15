@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { FileText, BarChart2, Home, MapPin, DollarSign, Calculator, TrendingUp, Layers, Percent } from 'lucide-react';
 import ChoiceCard from '@/components/form/fields/ChoiceCars';
 import FormHeader from '@/components/form/shared/FormHeader';
+import { ErrorMessage } from '@hookform/error-message';
 
 export default function Step2() {
   const {
@@ -39,7 +40,7 @@ export default function Step2() {
     <div className="space-y-6">
       <FormHeader title="What insights are you looking for?" subtitle="We’ll personalize your experience based on your preferences." />
 
-      <div className="mt-4">
+      <div className="mt-4 max-w-[435px] mx-auto ">
         <fieldset>
           <div className="grid grid-cols-3 gap-4">
             {interests.map((interest) => (
@@ -54,7 +55,7 @@ export default function Step2() {
             ))}
           </div>
         </fieldset>
-        {errors.interests?.message && <p className="mt-2 text-sm text-red-600">{String(errors.interests.message)}</p>}
+        <ErrorMessage errors={errors} name="interests" render={({ message }) => <p className="mt-2 text-sm text-red-600">{message}</p>} />
       </div>
     </div>
   );

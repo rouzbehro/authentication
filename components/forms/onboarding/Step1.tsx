@@ -3,6 +3,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Clipboard, Home, TrendingUp, Key, User } from 'lucide-react';
 import OptionCard from '@/components/form/fields/OptionCard';
+import { ErrorMessage } from '@hookform/error-message';
 
 export default function Step1() {
   const {
@@ -53,10 +54,7 @@ export default function Step1() {
 
   return (
     <div>
-      <FormHeader
-        title="What Describes You Best?"
-        subtitle="Select the option that best describes your role."
-      />
+      <FormHeader title="What Describes You Best?" subtitle="Select the option that best describes your role." />
 
       <div className="mt-8">
         <fieldset>
@@ -64,7 +62,7 @@ export default function Step1() {
         </fieldset>
       </div>
 
-      {errors.title && typeof errors.title.message === 'string' && <p className="mt-2 text-sm text-red-600">{errors.title.message}</p>}
+      <ErrorMessage errors={errors} name="title" render={({ message }) => <p className="mt-2 text-sm text-red-600">{message}</p>} />
     </div>
   );
 }

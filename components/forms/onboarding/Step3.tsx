@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { User, Users } from 'lucide-react';
 import OptionCard from '@/components/form/fields/OptionCard';
 import FormHeader from '@/components/form/shared/FormHeader';
+import { ErrorMessage } from '@hookform/error-message';
 
 export default function Step3() {
   const {
@@ -44,7 +45,7 @@ export default function Step3() {
         <fieldset>
           <OptionCard options={accountOptions} selectedValue={selectedValue} onChange={handleOptionChange} />
         </fieldset>
-        {errors.accountType?.message && <p className="mt-2 text-sm text-red-600">{String(errors.accountType.message)}</p>}
+        <ErrorMessage errors={errors} name="accountType" render={({ message }) => <p className="mt-2 text-sm text-red-600">{message}</p>} />
       </div>
     </div>
   );

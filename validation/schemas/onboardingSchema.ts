@@ -68,9 +68,41 @@ export const step4Schema = z.object({
   ),
   companyLogo: z
     .any()
-    .refine((file) => !file || (file instanceof File && file.size <= 5 * 1024 * 1024), {
-      message: 'File size must be less than 5MB.',
-    })
+    .refine(
+      (file) => {
+        console.log('Uploaded value:', file); // Debug log
+
+        if (!file || (file instanceof FileList && file.length === 0)) {
+          console.log('No file uploaded or empty FileList');
+          return true; // File is optional, so pass validation
+        }
+
+        const uploadedFile = file instanceof FileList ? file[0] : file;
+
+        if (!(uploadedFile instanceof File)) {
+          console.log('Uploaded input is not a File instance:', uploadedFile);
+          throw new Error('Uploaded file is invalid. Please try again.');
+        }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif']; // Allowed MIME types
+
+        if (!validTypes.includes(uploadedFile.type)) {
+          console.log('Invalid file type:', uploadedFile.type);
+          throw new Error('File type must be JPEG, PNG, or GIF.');
+        }
+
+        if (uploadedFile.size > 5 * 1024 * 1024) {
+          console.log('File size is too large:', uploadedFile.size);
+          throw new Error('File size must be less than 5MB.');
+        }
+
+        console.log('File validation passed:', uploadedFile);
+        return true;
+      },
+      {
+        message: 'Unexpected error during file validation.',
+      }
+    )
     .optional(),
 });
 

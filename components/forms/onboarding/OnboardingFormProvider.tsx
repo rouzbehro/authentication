@@ -24,6 +24,7 @@ const OnboardingFormProvider = ({ children }: Props) => {
       companyPhone: undefined,
       companyLogo: null,
     },
+    mode: 'onBlur',
   });
 
   const onSubmit = () => {

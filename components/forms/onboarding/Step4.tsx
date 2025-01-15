@@ -3,6 +3,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { SelectField } from '@/components/form/fields/SelectField';
 import { InputField } from '@/components/form/fields/InputField';
+import FormHeader from '@/components/form/shared/FormHeader';
+import { FileUpload } from '@/components/form/fields/FileUpload';
 
 export default function Step4() {
   const {
@@ -28,78 +30,57 @@ export default function Step4() {
   ];
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold text-gray-800">Step 4: Company Information</h2>
-      <p className="text-sm text-gray-600">Provide your company information to complete the onboarding process.</p>
+    <div className="space-y-2">
+      <FormHeader
+        className="mb-4"
+        title="Complete Your Info"
+        subtitle="Tell us a bit more about yourself to get the most out of our platform."
+      />
 
       {/* Province Selection */}
-      <SelectField
-        name="province"
-        label="Province"
-        placeholder="Select your province"
-        options={provinces}
-        setValue={setValue}
-        errors={errors}
-        className="mt-4"
-      />
+      <SelectField name="province" label="Province" placeholder="Select your province" options={provinces} setValue={setValue} errors={errors} />
 
       {/* Company Name */}
       <InputField
         register={register}
         name="companyName"
-        label="Company Name (Optional)"
-        placeholder="Enter your company name "
+        label="Company Name"
+        placeholder="Your business or organization name (optional)"
         type="text"
         errors={errors}
-        className="mt-4"
       />
 
       {/* Company Address */}
       <InputField
         register={register}
         name="companyAddress"
-        label="Company Address (Optional)"
-        placeholder="Enter your company address"
+        label="Company Address"
+        placeholder="Enter your company address (optional)"
         type="text"
         errors={errors}
-        className="mt-4"
       />
 
       {/* Company Email */}
       <InputField
         register={register}
         name="companyEmail"
-        label="Company Email (Optional)"
-        placeholder="Enter your company email"
+        label="Company Email"
+        placeholder="Enter your company email (optional)"
         type="email"
         errors={errors}
-        className="mt-4"
       />
 
       {/* Company Phone */}
       <InputField
         register={register}
         name="companyPhone"
-        label="Company Phone (Optional)"
-        placeholder="Enter your company phone number"
+        label="Company Phone"
+        placeholder="Enter your company phone number (optional)"
         type="tel"
         errors={errors}
-        className="mt-4"
       />
 
-      {/* Company Logo */}
-      <div className="mt-4">
-        <label htmlFor="companyLogo" className="block text-sm font-medium text-gray-700">
-          Company Logo (Optional)
-        </label>
-        <input
-          type="file"
-          id="companyLogo"
-          accept="image/*"
-          {...register('companyLogo')}
-          className="mt-1 block w-full text-sm text-gray-700 file:mr-4 file:rounded-md file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:text-gray-500 hover:file:bg-gray-200"
-        />
-      </div>
+      <FileUpload register={register} name="companyLogo" label="Company Logo" errors={errors} />
     </div>
   );
 }

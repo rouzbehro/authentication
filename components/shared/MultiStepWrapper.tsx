@@ -3,6 +3,7 @@
 import React, { ReactNode } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import CTAButton from '@/components/shared/CTAButton';
+import ProgressBar from './ProgressBar';
 
 type StepWrapperProps = {
   step: number;
@@ -25,16 +26,17 @@ const MultiStepWrapper: React.FC<StepWrapperProps> = ({ step, totalSteps, handle
             <div className="px-4 pt-8 min-h-96 mx-auto">{children}</div>
 
             {/* Footer */}
-            <div className="w-full px-4 pb-8 pt-5 rounded-b-xl">
+            <div className="max-w-[470px] mx-auto px-4 pb-8 pt-5 rounded-b-xl">
               {step < totalSteps && (
-                <CTAButton theme="secondary" onClick={handleNext}>
+                <CTAButton type="button" theme="secondary" onClick={handleNext}>
                   Next
                 </CTAButton>
               )}
-              {step === totalSteps && <CTAButton type="submit">Next</CTAButton>}
+              {step === totalSteps && <CTAButton type="submit">Get Started</CTAButton>}
             </div>
           </div>
         </div>
+        <ProgressBar currentStep={step} steps={totalSteps} />
       </div>
     </div>
   );
