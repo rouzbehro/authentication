@@ -4,9 +4,6 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 const DashboardPage = async () => {
-  const user = await getUser();
-  if (!user?.user?.isOnboarded) redirect('/dashboard/onboarding');
-
   return (
     <div>
       DashboardPage
