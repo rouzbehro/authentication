@@ -32,7 +32,7 @@ const OptionCard: React.FC<OptionCardProps> = ({ options, selectedValue, onChang
             className="hidden"
           />
           <div className="flex items-center gap-4">
-            <div className="text-2xl bg-gray-100 p-3 rounded-md">{option.icon}</div>
+            <div className="text-2xl bg-gray-100 border border-gray-200 p-3 rounded-md">{option.icon}</div>
             <div>
               <div className="text-lg font-semibold">{option.label}</div>
               <div className="text-sm text-gray-500">{option.description}</div>

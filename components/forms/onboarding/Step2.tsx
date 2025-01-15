@@ -40,9 +40,9 @@ export default function Step2() {
     <div className="space-y-6">
       <FormHeader title="What insights are you looking for?" subtitle="We’ll personalize your experience based on your preferences." />
 
-      <div className="mt-4 max-w-[435px] mx-auto ">
+      <div className="mt-4 mx-auto">
         <fieldset>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
             {interests.map((interest) => (
               <ChoiceCard
                 key={interest.id}

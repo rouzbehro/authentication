@@ -8,7 +8,7 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ steps, currentStep }) => {
   return (
-    <div className="flex items-center space-x-2 mx-auto mt-2 mb-10">
+    <div className="flex space-x-3 w-full justify-center">
       {Array.from({ length: steps }).map((_, index) => (
         <div
           key={index}

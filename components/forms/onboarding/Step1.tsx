@@ -54,14 +54,8 @@ export default function Step1() {
 
   return (
     <div>
-      <FormHeader title="What Describes You Best?" subtitle="Select the option that best describes your role." />
-
-      <div className="mt-8">
-        <fieldset>
-          <OptionCard options={options} selectedValue={selectedValue} onChange={handleOptionChange} />
-        </fieldset>
-      </div>
-
+      <FormHeader className='mb-6' title="What Describes You Best?" subtitle="Select the option that best describes your role." />
+      <OptionCard options={options} selectedValue={selectedValue} onChange={handleOptionChange} />
       <ErrorMessage errors={errors} name="title" render={({ message }) => <p className="mt-2 text-sm text-red-600">{message}</p>} />
     </div>
   );

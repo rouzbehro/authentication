@@ -8,10 +8,10 @@ import Loading from '@/components/shared/Loading';
 import MultiStepWrapper from '@/components/shared/MultiStepWrapper';
 
 // Dynamically import step components
-const Step1 = dynamic(() => import('./Step1'), { loading: () => <Loading />, ssr: false });
-const Step2 = dynamic(() => import('./Step2'), { loading: () => <Loading />, ssr: false });
-const Step3 = dynamic(() => import('./Step3'), { loading: () => <Loading />, ssr: false });
-const Step4 = dynamic(() => import('./Step4'), { loading: () => <Loading />, ssr: false });
+const Step1 = dynamic(() => import('./Step1'), { loading: () => <Loading fit="stretch" />, ssr: false });
+const Step2 = dynamic(() => import('./Step2'), { loading: () => <Loading fit="stretch" />, ssr: false });
+const Step3 = dynamic(() => import('./Step3'), { loading: () => <Loading fit="stretch" />, ssr: false });
+const Step4 = dynamic(() => import('./Step4'), { loading: () => <Loading fit="stretch" />, ssr: false });
 
 // Map steps to their respective components
 const stepComponents: { [key: number]: React.ComponentType } = {
@@ -47,7 +47,7 @@ export default function OnboardingForm() {
 
   return (
     <MultiStepWrapper step={step} totalSteps={Object.keys(stepComponents).length} handleNext={handleNext} handlePrevious={handlePrevious}>
-      <div className="min-h-[460px] flex justify-center ">{StepComponent && <StepComponent />}</div>
+      {StepComponent && <StepComponent />}
     </MultiStepWrapper>
   );
 }
