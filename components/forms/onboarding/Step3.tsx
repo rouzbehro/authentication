@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { User, Users } from 'lucide-react';
 import OptionCard from '@/components/form/fields/OptionCard';
 import FormHeader from '@/components/form/shared/FormHeader';
 import { ErrorMessage } from '@hookform/error-message';
