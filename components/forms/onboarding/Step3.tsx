@@ -18,14 +18,14 @@ export default function Step3() {
 
   const accountOptions = [
     {
-      value: 'Individual',
+      value: 'INDIVIDUAL',
       label: 'Individual Account',
       description: 'Perfect for independent appraisers, real estate agents, and investors managing their own workflow.',
       icon: <User size={24} className="text-gray-700" />,
       features: ['Access to all main features.', 'Manage reports and data independently.', 'Personalized tools for your needs.'],
     },
     {
-      value: 'Team',
+      value: 'TEAM',
       label: 'Team Account',
       description: 'Ideal for teams of 5 or more, looking for collaborative tools, centralized billing, and performance tracking.',
       icon: <Users size={24} className="text-gray-700" />,

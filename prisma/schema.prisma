@@ -45,8 +45,8 @@ model Team {
 }
 
 model Company {
-  id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  ownerId String @unique // Foreign key referencing the company owner, unique to ensure only one owner per team
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerId   String   @unique // Foreign key referencing the company owner, unique to ensure only one owner per team
   name      String
   address   String?
   email     String?  @unique

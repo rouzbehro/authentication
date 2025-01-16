@@ -39,11 +39,13 @@ export async function onboardUser(clerkId: string, rawData: unknown) {
     // Extract company and user-related fields
     const { companyName, companyAddress, companyEmail, companyPhone, accountType, title, interests, location } = data;
 
+    console.log(data)
+
     let companyId = currentUser.companyId;
     let teamId = currentUser.teamId;
 
     // Onboarding logic for Team account type
-    if (accountType === 'Team') {
+    if (accountType === 'TEAM') {
       // Create or update the company
       if (!companyId) {
         const newCompany = await prisma.company.create({
@@ -89,7 +91,7 @@ export async function onboardUser(clerkId: string, rawData: unknown) {
         isOnboarded: true,
         teamId,
         title,
-        location,
+        location: location ? [location] : undefined,
       },
     });
 

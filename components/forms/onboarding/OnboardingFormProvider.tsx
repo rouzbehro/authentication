@@ -47,7 +47,6 @@ const OnboardingFormProvider = ({ children }: Props) => {
     if (userId) {
       const updatedUser = await onboardUser(userId, data);
 
-      console.log(updatedUser);
       if (updatedUser.status === 200) {
         router.push(userPortalUrl);
       } else {

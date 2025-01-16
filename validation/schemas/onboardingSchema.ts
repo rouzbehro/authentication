@@ -26,7 +26,7 @@ export const step2Schema = z.object({
 
 // Step 3: Account Type selection
 export const step3Schema = z.object({
-  accountType: z.enum(['Individual', 'Team'], {
+  accountType: z.enum(['INDIVIDUAL', 'TEAM'], {
     required_error: 'Please select your account type.',
   }),
 });
