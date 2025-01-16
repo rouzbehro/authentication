@@ -50,6 +50,7 @@ const OnboardingFormProvider = ({ children }: Props) => {
       if (updatedUser.status === 200) {
         router.push(userPortalUrl);
       } else {
+        setIsSubmitting(false);
         toast({
           variant: 'destructive',
           title: 'Error',
@@ -57,14 +58,13 @@ const OnboardingFormProvider = ({ children }: Props) => {
         });
       }
     } else {
+      setIsSubmitting(false);
       toast({
         variant: 'destructive',
         title: 'Error',
         description: 'Something went wrong',
       });
     }
-
-    setIsSubmitting(false);
   };
   const stepFields: {
     [key: number]: ('title' | 'interests' | 'accountType' | 'location' | 'companyName' | 'companyAddress' | 'companyEmail' | 'companyPhone')[];

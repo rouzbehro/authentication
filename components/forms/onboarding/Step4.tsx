@@ -28,6 +28,8 @@ export default function Step4() {
     'Yukon',
   ];
 
+  const hearAboutUsOptions = ['Google', 'Social Media', 'Friend/Family', 'Advertisement', 'Other'];
+
   return (
     <div className="space-y-2">
       <FormHeader
@@ -76,6 +78,16 @@ export default function Step4() {
         label="Company Phone"
         placeholder="Enter your company phone number (optional)"
         type="tel"
+        errors={errors}
+      />
+
+      {/* How did you hear about us */}
+      <SelectField
+        name="howDidYouHear"
+        label="How did you hear about us?"
+        placeholder="Select an option"
+        options={hearAboutUsOptions}
+        setValue={setValue}
         errors={errors}
       />
     </div>

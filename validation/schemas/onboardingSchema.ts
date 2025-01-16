@@ -56,6 +56,7 @@ export const step4Schema = z.object({
     .refine((value) => PROVINCE_OPTIONS.includes(value), {
       message: 'Please select a valid location.',
     }),
+
   companyName: z.string().max(100, 'Company name must be under 100 characters.').optional(),
   companyAddress: z.string().max(200, 'Company address must be under 200 characters.').optional(),
   companyEmail: z.preprocess((value) => (value === '' ? undefined : value), z.string().email('Invalid email format').optional()),
@@ -66,6 +67,9 @@ export const step4Schema = z.object({
       .regex(/^\+?[0-9\s-]+$/, 'Invalid phone number format')
       .optional()
   ),
+  howDidYouHear: z.enum(['Google', 'Social Media', 'Friend/Family', 'Advertisement', 'Other'], {
+    required_error: 'Please select how you heard about us.',
+  }),
 });
 
 // Combined schema for all steps
@@ -78,6 +82,7 @@ export const onboardingSchema = z.object({
   companyAddress: step4Schema.shape.companyAddress,
   companyEmail: step4Schema.shape.companyEmail,
   companyPhone: step4Schema.shape.companyPhone,
+  howDidYouHear: step4Schema.shape.howDidYouHear,
 });
 
 // Type for form data inferred from combined schema

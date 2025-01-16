@@ -37,9 +37,7 @@ export async function onboardUser(clerkId: string, rawData: unknown) {
     }
 
     // Extract company and user-related fields
-    const { companyName, companyAddress, companyEmail, companyPhone, accountType, title, interests, location } = data;
-
-    console.log(data)
+    const { companyName, companyAddress, companyEmail, companyPhone, accountType, title, interests, location, howDidYouHear } = data;
 
     let companyId = currentUser.companyId;
     let teamId = currentUser.teamId;
@@ -92,6 +90,7 @@ export async function onboardUser(clerkId: string, rawData: unknown) {
         teamId,
         title,
         location: location ? [location] : undefined,
+        howDidYouHear,
       },
     });
 
@@ -103,8 +102,7 @@ export async function onboardUser(clerkId: string, rawData: unknown) {
   } catch (error: any) {
     return {
       status: 500,
-      message: 'An error occurred while fetching the user.',
-      error: error.message || 'Unknown error',
+      message: error.message || 'An error occurred while fetching the user.',
     };
   }
 }
