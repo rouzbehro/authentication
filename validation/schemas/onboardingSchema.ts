@@ -23,18 +23,25 @@ export const step2Schema = z.object({
 });
 
 export const step3Schema = z.object({
-  accountType: singleSelect(ACCOUNT_TYPES, 'Please select your account type.').default('INDIVIDUAL'),
+  accountType: singleSelect(ACCOUNT_TYPES, 'Please select your account type.'),
 });
 
 export const step4Schema = z.object({
   location: singleSelect(PROVINCES, 'Please select a location.'),
   companyName: z.string().max(100, 'Company name must be under 100 characters.').optional(),
   companyAddress: z.string().max(200, 'Company address must be under 200 characters.').optional(),
-  companyEmail: z.string().email('Invalid email format').optional(),
+  companyEmail: z
+    .string()
+    .optional()
+    .refine((val) => !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
+      message: 'Invalid email format',
+    }),
   companyPhone: z
     .string()
-    .regex(/^\+?[0-9\s-]+$/, 'Invalid phone number format')
-    .optional(),
+    .optional()
+    .refine((val) => !val || /^\+?[0-9\s-]+$/.test(val), {
+      message: 'Invalid phone number format',
+    }),
   howDidYouHear: singleSelect(HOW_DID_YOU_HEAR, 'Please select how you heard about us.'),
 });
 
