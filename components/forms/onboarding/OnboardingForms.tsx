@@ -17,11 +17,8 @@ const stepComponents: { [key: number]: React.ComponentType } = {
   4: Step4,
 };
 
-export default function OnboardingForm() {
+export default function OnboardingForms() {
   const { step } = useFormStep();
-
-  // Dynamically determine the step component
   const StepComponent = stepComponents[step] || null;
-
   return StepComponent && <StepComponent />;
 }

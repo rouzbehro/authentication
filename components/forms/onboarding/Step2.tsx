@@ -1,10 +1,11 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { FileText, BarChart2, Home, MapPin, DollarSign, Calculator, TrendingUp, Layers, Percent } from 'lucide-react';
 import ChoiceCard from '@/components/form/fields/ChoiceCars';
 import FormHeader from '@/components/form/shared/FormHeader';
 import { ErrorMessage } from '@hookform/error-message';
+import { INTERESTS } from '@/constants/onboarding';
+import Icon from '@/components/shared/Icon';
 
 export default function Step2() {
   const {
@@ -14,18 +15,6 @@ export default function Step2() {
   } = useFormContext();
 
   const selectedInterests = watch('interests', []);
-
-  const interests = [
-    { id: 'rental-reports', label: 'Rental and Desktop Reports', icon: <FileText /> },
-    { id: 'investment-analysis', label: 'Investment Analysis', icon: <BarChart2 /> },
-    { id: 'pre-construction', label: 'Pre-construction Homes', icon: <Home /> },
-    { id: 'neighborhood-analytics', label: 'Neighborhood Analytics', icon: <MapPin /> },
-    { id: 'cash-flow', label: 'Cash Flow Analysis', icon: <DollarSign /> },
-    { id: 'property-appraisals', label: 'Property Appraisals', icon: <Calculator /> },
-    { id: 'market-trends', label: 'Market Trends Performance', icon: <TrendingUp /> },
-    { id: 'comparable-analysis', label: 'Comparable Market Analysis', icon: <Layers /> },
-    { id: 'mortgage-rates', label: 'Mortgage Rates', icon: <Percent /> },
-  ];
 
   const handleChoiceChange = (id: string) => {
     const updatedInterests = selectedInterests.includes(id)
@@ -42,12 +31,12 @@ export default function Step2() {
       <div className="mt-4 mx-auto">
         <fieldset>
           <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-            {interests.map((interest) => (
+            {INTERESTS.map((interest) => (
               <ChoiceCard
                 key={interest.id}
                 id={interest.id}
                 label={interest.label}
-                icon={interest.icon}
+                icon={<Icon name={interest.icon} />}
                 isSelected={selectedInterests.includes(interest.id)}
                 onChange={handleChoiceChange}
               />

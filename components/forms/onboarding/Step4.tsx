@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { SelectField } from '@/components/form/fields/SelectField';
 import { InputField } from '@/components/form/fields/InputField';
 import FormHeader from '@/components/form/shared/FormHeader';
+import { HOW_DID_YOU_HEAR_OPTIONS, PROVINCE_OPTIONS } from '@/constants/onboarding';
 
 export default function Step4() {
   const {
@@ -11,24 +12,6 @@ export default function Step4() {
     setValue,
     formState: { errors },
   } = useFormContext();
-
-  const provinces = [
-    'Alberta',
-    'British Columbia',
-    'Manitoba',
-    'New Brunswick',
-    'Newfoundland and Labrador',
-    'Nova Scotia',
-    'Ontario',
-    'Prince Edward Island',
-    'Quebec',
-    'Saskatchewan',
-    'Northwest Territories',
-    'Nunavut',
-    'Yukon',
-  ];
-
-  const hearAboutUsOptions = ['Google', 'Social Media', 'Friend/Family', 'Advertisement', 'Other'];
 
   return (
     <div className="space-y-2">
@@ -39,7 +22,14 @@ export default function Step4() {
       />
 
       {/* Province Selection */}
-      <SelectField name="location" label="Province" placeholder="Select your location" options={provinces} setValue={setValue} errors={errors} />
+      <SelectField
+        name="location"
+        label="Province"
+        placeholder="Select your location"
+        options={PROVINCE_OPTIONS}
+        setValue={setValue}
+        errors={errors}
+      />
 
       {/* Company Name */}
       <InputField
@@ -86,7 +76,7 @@ export default function Step4() {
         name="howDidYouHear"
         label="How did you hear about us?"
         placeholder="Select an option"
-        options={hearAboutUsOptions}
+        options={HOW_DID_YOU_HEAR_OPTIONS}
         setValue={setValue}
         errors={errors}
       />

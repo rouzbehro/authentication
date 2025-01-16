@@ -1,56 +1,39 @@
+import {
+  ACCOUNT_TYPE_OPTIONS,
+  HOW_DID_YOU_HEAR_OPTIONS,
+  INTERESTS_OPTIONS,
+  PROVINCE_OPTIONS as PROVINCE_OPTIONS_RAW,
+  TITLES,
+} from '@/constants/onboarding';
+
 import { z } from 'zod';
+
+const TITLE_OPTIONS = TITLES.map((title) => title.value) as [string, ...string[]];
+const PROVINCE_OPTIONS = PROVINCE_OPTIONS_RAW as [string, ...string[]];
 
 // Step 1: Title selection
 export const step1Schema = z.object({
-  title: z.enum(['Appraiser', 'Real Estate Agent', 'Real Estate Investor', 'Landlord', 'Other'], {
+  title: z.enum([...TITLE_OPTIONS], {
     required_error: 'Please select your title.',
   }),
 });
 
 // Step 2: Interests selection
-export const INTERESTS_OPTIONS = [
-  'rental-reports',
-  'investment-analysis',
-  'pre-construction',
-  'neighborhood-analytics',
-  'cash-flow',
-  'property-appraisals',
-  'market-trends',
-  'comparable-analysis',
-  'mortgage-rates',
-] as const;
-
 export const step2Schema = z.object({
   interests: z.array(z.enum([...INTERESTS_OPTIONS])).nonempty('Please select at least one interest.'),
 });
 
 // Step 3: Account Type selection
 export const step3Schema = z.object({
-  accountType: z.enum(['INDIVIDUAL', 'TEAM'], {
+  accountType: z.enum([...ACCOUNT_TYPE_OPTIONS], {
     required_error: 'Please select your account type.',
   }),
 });
 
 // Step 4: Company Information
-export const PROVINCE_OPTIONS = [
-  'Alberta',
-  'British Columbia',
-  'Manitoba',
-  'New Brunswick',
-  'Newfoundland and Labrador',
-  'Nova Scotia',
-  'Ontario',
-  'Prince Edward Island',
-  'Quebec',
-  'Saskatchewan',
-  'Northwest Territories',
-  'Nunavut',
-  'Yukon',
-] as const;
-
 export const step4Schema = z.object({
   location: z
-    .enum(PROVINCE_OPTIONS, {
+    .enum([...PROVINCE_OPTIONS], {
       required_error: 'Please select a location.',
     })
     .refine((value) => PROVINCE_OPTIONS.includes(value), {
@@ -67,7 +50,7 @@ export const step4Schema = z.object({
       .regex(/^\+?[0-9\s-]+$/, 'Invalid phone number format')
       .optional()
   ),
-  howDidYouHear: z.enum(['Google', 'Social Media', 'Friend/Family', 'Advertisement', 'Other'], {
+  howDidYouHear: z.enum(HOW_DID_YOU_HEAR_OPTIONS as [string, ...string[]], {
     required_error: 'Please select how you heard about us.',
   }),
 });

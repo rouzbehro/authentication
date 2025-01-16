@@ -1,10 +1,11 @@
+import Icon from '@/components/shared/Icon';
 import React from 'react';
 
 interface Option {
   value: string;
   label: string;
   description: string;
-  icon: React.ReactNode;
+  icon: string;
   features?: string[]; // Optional list of features
 }
 
@@ -32,7 +33,9 @@ const OptionCard: React.FC<OptionCardProps> = ({ options, selectedValue, onChang
             className="hidden"
           />
           <div className="flex items-center gap-4">
-            <div className="text-2xl bg-gray-100 border border-gray-200 p-3 rounded-md">{option.icon}</div>
+            <div className="text-2xl bg-gray-100 border border-gray-200 p-3 rounded-md">
+              <Icon name={option.icon} className="h-6 w-6" />
+            </div>
             <div>
               <div className="text-lg font-semibold">{option.label}</div>
               <div className="text-sm text-gray-500">{option.description}</div>
