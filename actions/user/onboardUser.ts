@@ -83,7 +83,7 @@ export async function onboardUser(clerkId: string, rawData: unknown) {
     const updatedUser = await prisma.user.update({
       where: { clerkId },
       data: {
-        accountType,
+        accountType: accountType as any,
         companyId,
         interests,
         isOnboarded: true,

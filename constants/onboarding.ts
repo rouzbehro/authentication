@@ -29,7 +29,7 @@ export const TITLES = [
     description: "I'm just exploring for now.",
     icon: 'User',
   },
-];
+] as const;
 
 // Interest options
 export const INTERESTS_OPTIONS = [
@@ -62,10 +62,10 @@ export const PROVINCE_OPTIONS = [
   'Northwest Territories',
   'Nunavut',
   'Yukon',
-];
+] as const;
 
 // How did you hear options
-export const HOW_DID_YOU_HEAR_OPTIONS = ['Google', 'Social Media', 'Friend/Family', 'Advertisement', 'Other'];
+export const HOW_DID_YOU_HEAR_OPTIONS = ['Google', 'Social Media', 'Friend/Family', 'Advertisement', 'Other'] as const;
 
 export const INTERESTS: { id: string; label: string; icon: string }[] = [
   { id: 'rental-reports', label: 'Rental and Desktop Reports', icon: 'FileText' },
@@ -77,7 +77,7 @@ export const INTERESTS: { id: string; label: string; icon: string }[] = [
   { id: 'market-trends', label: 'Market Trends Performance', icon: 'TrendingUp' },
   { id: 'comparable-analysis', label: 'Comparable Market Analysis', icon: 'Layers' },
   { id: 'mortgage-rates', label: 'Mortgage Rates', icon: 'Percent' },
-];
+] as const;
 
 export const ACCOUNT_OPTIONS = [
   {
@@ -94,4 +94,4 @@ export const ACCOUNT_OPTIONS = [
     icon: 'Users',
     features: ['Multi-member access under one account.', 'Centralized management and billing.', 'Up to 30% volume discount.'],
   },
-];
+] as const;

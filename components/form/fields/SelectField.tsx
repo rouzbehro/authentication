@@ -7,7 +7,7 @@ interface SelectFieldProps {
   name: string;
   label: string;
   placeholder: string;
-  options: string[];
+  options: readonly string[];
   register?: ReturnType<typeof useForm>['register'];
   setValue: (name: string, value: string) => void;
   errors: FieldValues['errors'];

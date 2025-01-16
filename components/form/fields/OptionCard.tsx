@@ -6,11 +6,11 @@ interface Option {
   label: string;
   description: string;
   icon: string;
-  features?: string[]; // Optional list of features
+  features?: readonly string[];
 }
 
 interface OptionCardProps {
-  options: Option[];
+  options: readonly Option[];
   selectedValue: string;
   onChange: (value: string) => void;
 }
