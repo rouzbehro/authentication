@@ -4,7 +4,6 @@ import { useFormContext } from 'react-hook-form';
 import { SelectField } from '@/components/form/fields/SelectField';
 import { InputField } from '@/components/form/fields/InputField';
 import FormHeader from '@/components/form/shared/FormHeader';
-import { FileUpload } from '@/components/form/fields/FileUpload';
 
 export default function Step4() {
   const {
@@ -38,7 +37,7 @@ export default function Step4() {
       />
 
       {/* Province Selection */}
-      <SelectField name="province" label="Province" placeholder="Select your province" options={provinces} setValue={setValue} errors={errors} />
+      <SelectField name="location" label="Province" placeholder="Select your location" options={provinces} setValue={setValue} errors={errors} />
 
       {/* Company Name */}
       <InputField
@@ -79,8 +78,6 @@ export default function Step4() {
         type="tel"
         errors={errors}
       />
-
-      <FileUpload register={register} name="companyLogo" label="Company Logo" errors={errors} />
     </div>
   );
 }

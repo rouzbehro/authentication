@@ -11,9 +11,10 @@ type StepWrapperProps = {
   handleNext: () => void;
   handlePrevious: () => void;
   children: ReactNode;
+  isLoading?: boolean;
 };
 
-const MultiStepWrapper: React.FC<StepWrapperProps> = ({ step, totalSteps, handleNext, handlePrevious, children }) => {
+const MultiStepWrapper: React.FC<StepWrapperProps> = ({ step, totalSteps, handleNext, handlePrevious, children, isLoading = false }) => {
   return (
     <div className="flex items-center justify-center md:h-screen h-auto w-screen p-4 sm:p-16 bg-gray-100 md:mb-0 mb-16">
       <div className="flex flex-col 2xl:w-5/12 md:w-10/12 w-full bg-white rounded-xl min-h-[750px] justify-center relative">
@@ -26,11 +27,15 @@ const MultiStepWrapper: React.FC<StepWrapperProps> = ({ step, totalSteps, handle
           <div className="md:p-0 md:border-none md:relative p-4 bg-white border-t border-gray-200 fixed left-0 bottom-0 w-full">
             {/* Footer */}
             {step < totalSteps && (
-              <CTAButton type="button" theme="secondary" onClick={handleNext}>
+              <CTAButton type="button" theme="secondary" onClick={handleNext} isLoading={isLoading}>
                 Next
               </CTAButton>
             )}
-            {step === totalSteps && <CTAButton type="submit">Get Started</CTAButton>}
+            {step === totalSteps && (
+              <CTAButton type="submit" isLoading={isLoading}>
+                Get Started
+              </CTAButton>
+            )}
           </div>
           <div className="hidden md:block">
             <ProgressBar currentStep={step} steps={totalSteps} />

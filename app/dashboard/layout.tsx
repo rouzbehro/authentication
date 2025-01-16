@@ -8,6 +8,7 @@ type Props = {
 
 const Layout = async ({ children }: Props) => {
   const user = await getUser();
+  console.log(user)
   if (!user?.user?.isOnboarded) redirect('/onboarding');
 
   return <div>{children}</div>;

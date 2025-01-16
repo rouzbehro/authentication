@@ -3,10 +3,22 @@
 import { onboardingSchema } from '@/validation/schemas/onboardingSchema';
 import { prisma } from '../../lib/prisma';
 
-export async function updateUser(clerkId: string, rawData: unknown) {
+export async function onboardUser(clerkId: string, rawData: unknown) {
   try {
-    // Validate input data using the schema
-    const data = onboardingSchema.parse(rawData);
+    // Validate the input data using the schema with safeParse
+
+    const parsed = onboardingSchema.safeParse(rawData);
+
+    if (!parsed.success) {
+      // Return validation errors if parsing fails
+      return {
+        status: 400,
+        message: 'Validation error',
+        errors: parsed.error.errors,
+      };
+    }
+
+    const data = parsed.data;
 
     // Fetch the current user data
     const currentUser = await prisma.user.findUnique({
@@ -25,29 +37,38 @@ export async function updateUser(clerkId: string, rawData: unknown) {
     }
 
     // Extract company and user-related fields
-    const { companyName, companyAddress, companyEmail, companyPhone, companyLogo, accountType, ...userData } = data;
+    const { companyName, companyAddress, companyEmail, companyPhone, accountType, title, interests, location } = data;
 
     let companyId = currentUser.companyId;
     let teamId = currentUser.teamId;
 
-    // Check if the user has a TEAM account
+    // Onboarding logic for Team account type
     if (accountType === 'Team') {
-      // Handle company creation if no company exists
+      // Create or update the company
       if (!companyId) {
         const newCompany = await prisma.company.create({
           data: {
-            name: companyName || 'Default Company Name', // Fallback name if not provided
+            name: companyName || '', // Fallback name if not provided
             address: companyAddress,
             email: companyEmail,
             phone: companyPhone,
-            logo: companyLogo,
             ownerId: currentUser.id, // Set the user as the owner of the company
           },
         });
         companyId = newCompany.id;
+      } else {
+        await prisma.company.update({
+          where: { id: companyId },
+          data: {
+            name: companyName,
+            address: companyAddress,
+            email: companyEmail,
+            phone: companyPhone,
+          },
+        });
       }
 
-      // Handle team creation if no team exists
+      // Create or update the team
       if (!teamId) {
         const newTeam = await prisma.team.create({
           data: {
@@ -56,37 +77,31 @@ export async function updateUser(clerkId: string, rawData: unknown) {
         });
         teamId = newTeam.id;
       }
-
-      // Add the user to the company and the team if not already associated
-      await prisma.user.update({
-        where: { clerkId },
-        data: {
-          companyId,
-          teamId,
-        },
-      });
     }
 
-    // Update the user with provided data, companyId, and teamId
+    // Update user data, linking them to the company and team if applicable
     const updatedUser = await prisma.user.update({
       where: { clerkId },
       data: {
-        ...userData, // All user fields from the form
-        companyId, // Associated company ID
-        teamId, // Associated team ID
+        accountType,
+        companyId,
+        interests,
+        isOnboarded: true,
+        teamId,
+        title,
+        location,
       },
     });
 
     return {
       status: 200,
-      message: 'User updated successfully',
+      message: 'User onboarded successfully',
       user: updatedUser,
     };
   } catch (error: any) {
-    console.error('Validation or update error:', error);
     return {
       status: 500,
-      message: 'Failed to update user',
+      message: 'An error occurred while fetching the user.',
       error: error.message || 'Unknown error',
     };
   }

@@ -1,3 +1,3 @@
 export { createUserWithDetails, createUserFromClerk } from './createUser';
-export { updateUser } from './updateUser';
+export { onboardUser } from './onboardUser';
 export { getUser } from './getUser';
