@@ -48,7 +48,6 @@ export async function getUser() {
       user: authenticatedUser,
     };
   } catch (error: any) {
-    // Handle errors gracefully
     return {
       status: 500,
       message: 'An error occurred while fetching the user.',

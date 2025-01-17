@@ -2,6 +2,7 @@
 
 import { User } from '@clerk/nextjs/server';
 import { prisma } from '../../lib/prisma';
+import { getPrimaryClerkEmail } from '../helpers/userHelper';
 
 // Function to create a user by directly passing user details
 export async function createUserWithDetails(data: { firstName: string; lastName: string; email: string; clerkId: string }) {
@@ -35,17 +36,13 @@ export async function createUserWithDetails(data: { firstName: string; lastName:
 // Function to create a user using a Clerk user object
 export async function createUserFromClerk(clerkUser: User) {
   try {
-    const primaryEmail = clerkUser.emailAddresses?.find((email: any) => email.id === clerkUser.primaryEmailAddressId);
-
-    if (!primaryEmail) {
-      throw new Error('No primary email address found for the user');
-    }
+    const primaryEmail = getPrimaryClerkEmail(clerkUser);
 
     const user = await prisma.user.create({
       data: {
         firstName: clerkUser.firstName || '',
         lastName: clerkUser.lastName || '',
-        email: primaryEmail.emailAddress || '',
+        email: primaryEmail,
         clerkId: clerkUser.id,
       },
       select: {
@@ -62,7 +59,7 @@ export async function createUserFromClerk(clerkUser: User) {
       message: 'User created successfully',
       user,
     };
-  } catch (error) {
+  } catch (error: any) {
     return {
       status: 400,
       message: 'Failed to create user',
