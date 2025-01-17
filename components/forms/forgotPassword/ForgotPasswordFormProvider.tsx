@@ -4,11 +4,11 @@ import { useFormForgotPassword } from '@/hooks/auth/use-form-forgot-password';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
-type Props = {
+type ForgotPasswordFormProviderProps = {
   children: React.ReactNode;
 };
 
-const ForgotPasswordFormProvider = ({ children }: Props) => {
+const ForgotPasswordFormProvider = ({ children }: ForgotPasswordFormProviderProps) => {
   const { formMethods, onSubmit } = useFormForgotPassword();
 
   return (

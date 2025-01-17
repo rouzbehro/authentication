@@ -4,11 +4,11 @@ import { useFormSignUp } from '@/hooks/auth/use-form-sign-up';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
-type Props = {
+type SignUpFormProviderProps = {
   children: React.ReactNode;
 };
 
-const SignUpFormProvider = ({ children }: Props) => {
+const SignUpFormProvider = ({ children }: SignUpFormProviderProps) => {
   const { formMethods, onSubmit } = useFormSignUp();
 
   return (

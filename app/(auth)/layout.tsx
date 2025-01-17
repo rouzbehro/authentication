@@ -8,7 +8,7 @@ const Layout = async ({ children }: Readonly<{ children: React.ReactNode }>) => 
 
   if (user) redirect(userPortalUrl);
 
-  return <div className="flex flex-‰col min-h-screen md:flex-row ">{children}</div>;
+  return <div className="flex flex-col min-h-screen md:flex-row ">{children}</div>;
 };
 
 export default Layout;

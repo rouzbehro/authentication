@@ -8,11 +8,11 @@ import { LinkText } from '@/components/shared/LinkText';
 export default function SignUpPage() {
   return (
     <>
-      <div className="w-full md:w-1/2 h-32 md:h-screen relative">
+      <div className="image-wrapper">
         <Image src="/placeholder.svg?height=1080&width=1920" alt="Sign up visual" layout="fill" objectFit="cover" priority />
       </div>
-      <div className="w-full md:w-1/2 p-8 flex items-center justify-center md:bg-white rounded-l-3xl md:rounded-r-none rounded-r-3xl">
-        <div className="w-full max-w-md space-y-8 bg-white p-8 md:p-0 sm:rounded-none rounded-3xl">
+      <div className="form-container">
+        <div className="form-wrapper">
           {/* Provides context for managing and tracking the current step in the sign-up flow */}
           <FormStepContextProvider>
             {/* Wraps the forms with React Hook Form's provider to enable form state management */}

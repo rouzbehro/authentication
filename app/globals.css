@@ -71,3 +71,15 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.image-wrapper {
+  @apply w-full md:w-1/2 h-32 md:h-screen relative;
+}
+
+.form-container {
+  @apply w-full md:w-1/2 p-8 flex items-center justify-center md:bg-white rounded-l-3xl md:rounded-r-none rounded-r-3xl;
+}
+
+.form-wrapper {
+  @apply w-full max-w-md space-y-8 bg-white p-8 md:p-0 sm:rounded-none rounded-3xl;
+}

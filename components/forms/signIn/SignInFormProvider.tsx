@@ -4,11 +4,11 @@ import { useFormSignIn } from '@/hooks/auth/use-form-sign-in';
 import React from 'react';
 import { FormProvider } from 'react-hook-form';
 
-type Props = {
+type SignInFormProviderProps = {
   children: React.ReactNode;
 };
 
-const SignInFormProvider = ({ children }: Props) => {
+const SignInFormProvider = ({ children }: SignInFormProviderProps) => {
   const { formMethods, onSubmit } = useFormSignIn();
 
   return (
