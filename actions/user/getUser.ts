@@ -6,16 +6,17 @@ import { redirect } from 'next/navigation';
 import { createUserFromClerk } from './createUser';
 
 export async function getUser() {
-  // Fetch the current user from Clerk
-  const clerkUser = await currentUser();
-
-  // Redirect if the user is not logged in
-  if (!clerkUser) {
-    redirect('/sign-in');
-    return; // To prevent further execution
-  }
-
   try {
+    // Fetch the current user from Clerk
+    const clerkUser = await currentUser();
+
+    if (!clerkUser) {
+      return {
+        status: 401,
+        message: 'User not logged in.',
+      };
+    }
+
     // Check if the user exists in the database
     let authenticatedUser = await prisma.user.findUnique({
       where: { clerkId: clerkUser.id },
@@ -28,7 +29,7 @@ export async function getUser() {
       },
     });
 
-    // If the user does not exist, create them using the refactored function
+    // If the user does not exist, create them
     if (!authenticatedUser) {
       const result = await createUserFromClerk(clerkUser);
 
@@ -50,8 +51,7 @@ export async function getUser() {
   } catch (error: any) {
     return {
       status: 500,
-      message: 'An error occurred while fetching the user.',
-      error: error.message || 'Unknown error',
+      message: error.message || 'Unknown error occurred.',
     };
   }
 }
