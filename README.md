@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🔐 Next.js 15 Custom Authentication Workflow  
 
-## Getting Started
+This project is a **custom authentication workflow** built with **Next.js 15**, using **TypeScript, Prisma, Clerk Authentication, Tailwind CSS, and ShadCN UI**. It provides a seamless authentication experience with a clean, modern UI.
 
-First, run the development server:
+## 🚀 Features  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 15** – App Router-based authentication  
+- **TypeScript** – Type-safe development  
+- **Prisma** – Database ORM for user data storage  
+- **Clerk Authentication** – Secure and customizable authentication  
+- **Tailwind CSS** – Modern, utility-first styling  
+- **ShadCN UI** – Beautiful, pre-styled components  
+- **Full Authentication Flow**:
+  - **Sign-in**
+  - **Sign-up (SSO callback included)**
+  - **Forgot Password**
+  - **OTP Verification**
+  - **Onboarding Flow**
+
+## 📂 Folder Structure  
+
+```
+/app
+  /dashboard             # User dashboard
+  /(auth)               # Authentication-related pages
+    /sign-up
+      /sso-callback     # Handles social sign-up redirects
+    /forgot-password    # Password recovery flow
+    /sign-in            # Sign-in page
+  /onboarding           # User onboarding flow
+
+/components
+  /ui                   # Reusable UI components (ShadCN)
+  /form
+    /shared             # Shared form utilities
+    /fields             # Custom form fields
+  /forms
+    /forgotPassword     # Forgot password form
+    /signUp            # Sign-up form
+    /signIn            # Sign-in form
+    /onboarding        # Onboarding form
+  /auth                # Authentication-specific UI components
+  /shared              # Shared reusable components
+
+/hooks
+  /auth                # Authentication hooks
+  /onboarding          # Hooks for onboarding logic
+
+/actions
+  /user                # User-related API actions
+  /helpers             # Helper functions
+
+/context               # Context providers
+/constants             # Global constants
+
+/lib                   # Shared utility functions
+/validation
+  /schemas             # Zod validation schemas
+/public                # Public assets (logos, images)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 💡 About Me  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+👋 Hi, I'm **Rouzbeh Roshanravan**, a **Lead Front-End Engineer** with over **10 years of experience** working with **startups and large corporations**.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+I have worked on **numerous projects**, leading **front-end development, optimizing performance, and improving user experience**. My expertise extends to **React, Next.js, TypeScript, and backend technologies like Node.js and Prisma**.  
 
-## Learn More
+Beyond development, I have **mentored engineers and taught students**, helping them grow in their careers. My passion lies in **data analytics, UX design, and understanding user behavior** to create intuitive and high-performing applications.  
 
-To learn more about Next.js, take a look at the following resources:
+### 🔹 My Expertise:
+- **React.js, Next.js, React Native**
+- **Performance Optimization & State Management (XState, Zustand)**
+- **Backend Development with Node.js, Express.js, Prisma, MongoDB**
+- **AWS Cloud Services & CI/CD Pipelines**
+- **A/B Testing & UX/UI Enhancements**
+- **Mentorship, Agile Methodology & Team Leadership**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+📩 **Contact Me**:  
+- **LinkedIn**: [linkedin.com/in/roshanravan](https://linkedin.com/in/roshanravan/)  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📜 License  
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the **MIT License**.
